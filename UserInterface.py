@@ -91,10 +91,10 @@ class Ui_SSRRecognition(object):
         self.ExperimentNameLabel = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
         self.ExperimentNameLabel.setGeometry(QtCore.QRect(580, 150, 161, 31))
         self.ExperimentNameLabel.setObjectName("ExperimentNameLabel")
-        self.ExperimentNameIndecator_2 = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
-        self.ExperimentNameIndecator_2.setGeometry(QtCore.QRect(770, 150, 301, 31))
-        self.ExperimentNameIndecator_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.ExperimentNameIndecator_2.setObjectName("ExperimentNameIndecator_2")
+        self.ExperimentNameIndecator = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
+        self.ExperimentNameIndecator.setGeometry(QtCore.QRect(770, 150, 301, 31))
+        self.ExperimentNameIndecator.setAlignment(QtCore.Qt.AlignCenter)
+        self.ExperimentNameIndecator.setObjectName("ExperimentNameIndecator")
         self.StageCOMIndecatorLabel = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
         self.StageCOMIndecatorLabel.setGeometry(QtCore.QRect(250, 80, 151, 31))
         self.StageCOMIndecatorLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -260,7 +260,7 @@ class Ui_SSRRecognition(object):
         self.PeriodCollectionLabel.setText(_translate("SSRRecognition", "Period of Collection:"))
         self.ChannelNumLabel.setText(_translate("SSRRecognition", "Number of Channels:"))
         self.ExperimentNameLabel.setText(_translate("SSRRecognition", "Experiment Name:"))
-        self.ExperimentNameIndecator_2.setText(_translate("SSRRecognition", "----"))
+        self.ExperimentNameIndecator.setText(_translate("SSRRecognition", "----"))
         self.StageCOMIndecatorLabel.setText(_translate("SSRRecognition", "----"))
         self.StageStatIndecator.setText(_translate("SSRRecognition", "----"))
         self.DCCOMIndecatorLabel.setText(_translate("SSRRecognition", "----"))
@@ -272,11 +272,6 @@ class Ui_SSRRecognition(object):
         self.DirectionSectionComboBox.setItemText(0, _translate("SSRRecognition", "----"))
         self.DirectionSectionComboBox.setItemText(1, _translate("SSRRecognition", "ClockWise"))
         self.DirectionSectionComboBox.setItemText(2, _translate("SSRRecognition", "Anti-ClockWise"))
-        self.DialogboxOutput.setHtml(_translate("SSRRecognition", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.HomeDeviceBut.setText(_translate("SSRRecognition", "Home Device"))
         self.DCCOMLabel.setText(_translate("SSRRecognition", "Data Collector COM Port:"))
         self.label.setText(_translate("SSRRecognition", "Dialog Messages:"))

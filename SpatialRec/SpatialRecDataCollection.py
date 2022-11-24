@@ -1,8 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets 
 import utils
-import serial
+import DataManagement
 import time
-import os
 
 
 ## Starting the Exepriment Function
@@ -10,7 +9,7 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
     self.StageStatIndecator.setText("Calibrating...")
     self.StageControllerPort, self.DataCollectorPort = utils.COMFinder(self)
     self.currAngle, self.arduino = utils.Inititialise(self.StageControllerPort)
-    time.sleep(1)
+    time.sleep(2)
     self.StageStatIndecator.setText("Ready!")
     self.ExperimentStatIndecator.setText("Varifying Parameters")
     
@@ -41,8 +40,8 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                                 
                                 DialogBoxOutput.setText("Success! \nStarting the Experiment Now... ")
                                 self.ExperimentStatIndecator.setText("Starting...")
-
-
+                                ExperimentName, ExperimentDIR = DataManagement.creatDirectory(self.Increment, self.RotAngle)    
+                                self.ExperimentNameIndecator.setText(ExperimentName)
 
 
                             else:
