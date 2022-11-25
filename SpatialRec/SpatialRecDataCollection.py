@@ -1,22 +1,25 @@
-from PyQt5 import QtCore, QtGui, QtWidgets 
 import utils
 import DataManagement
 import time
 
 
+def DataCollection(DataCollectionCOM, StageControllerCOM):
+    pass
+
 ## Starting the Exepriment Function
 def StartSpatialRecogExperiment(self, DialogBoxOutput):
     self.StageStatIndecator.setText("Calibrating...")
-    self.StageControllerPort, self.DataCollectorPort = utils.COMFinder(self)
-    self.currAngle, self.arduino = utils.Inititialise(self.StageControllerPort)
-    time.sleep(2)
-    self.StageStatIndecator.setText("Ready!")
-    self.ExperimentStatIndecator.setText("Varifying Parameters")
+
+    ## Calibrating the Stage
+    if self.StageCalibStat == False or self.currAngle != 0:  
+        self.currAngle = utils.Inititialise(self.StageControllerPort)
+        # time.sleep(2)
+        self.StageStatIndecator.setText("Ready!")
+        self.StageCalibStat = True
+
     
-    ## Creating relavent Directories
-
-
     ## Valifying all experimental params are set correctly
+    self.ExperimentStatIndecator.setText("Varifying Parameters")
     try:
         self.NumberOfSamples = int(self.SampleSizeInput.text())
 
@@ -29,6 +32,7 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                 try:
                     self.Increment = int(self.IncrementInput.text())
                     if self.Increment <= 180:
+
                         try:
                             self.RotAngle = int(self.RotAngleInput.text())
                             if self.RotAngle >= self.Increment*2 and self.RotAngle <= 360:
@@ -37,10 +41,14 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                                     self.Direction = 0
                                 else:
                                     self.Direction = 1
-                                
+
+                                print(self.Direction)
+
                                 DialogBoxOutput.setText("Success! \nStarting the Experiment Now... ")
+                                
+                                ## Creating relavent Directories
                                 self.ExperimentStatIndecator.setText("Starting...")
-                                ExperimentName, ExperimentDIR = DataManagement.creatDirectory(self.Increment, self.RotAngle)    
+                                ExperimentName, ExperimentDIR = DataManagement.creatDirectorySpatialRec(self.Increment, self.RotAngle)    
                                 self.ExperimentNameIndecator.setText(ExperimentName)
 
 
@@ -65,6 +73,7 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
     except:
         print("Sample number must be an integer!")
         DialogBoxOutput.setText("Sample number must be an integer!")
+
 
 ## Homming the stage to zero
 def HomeTheStage(self, StageControllerPort, arduino, DialogBoxOutput):

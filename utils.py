@@ -5,8 +5,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 ## Finiding the Data collector and stage controller ports for Interface
 def COMFinder(self):
     ports = list(serial.tools.list_ports.comports())
+    StageControllerPort = ''
+    DataCollectorPort = ''
     for p in ports:
-
         if "Arduino Uno" in p.description:
             StageControllerPort = p.name
         
@@ -46,12 +47,11 @@ def Inititialise(comPort):
             line = line.replace("\r\n", '')
 
         print("Starting")
-
-    return 0, arduino
+    arduino.close()
+    return 0
 
 ## Homming Sequence
 def Calibrate(comPort, arduino):
-    arduino.close()
     arduino = serial.Serial(comPort, 9600, timeout=1)
     line = arduino.readline()
     print(line)
@@ -73,11 +73,12 @@ def Calibrate(comPort, arduino):
             line = line.replace("\r\n", '')
 
         print("Starting")
-
-    return 0, arduino
+    arduino.close()
+    return 0
 
 ## Set Angles
-def AngleSet(Angle, arduino, currAngle):
+def AngleSet(Angle, comPort, currAngle):
+    arduino = serial.Serial(comPort, 9600, timeout=1)
     angle = Angle
     if angle==0:
         if currAngle>180:

@@ -14,7 +14,7 @@
    <string>SSR User Interface</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="SpeechRecDCTitle">
+   <widget class="QTabWidget" name="SpeechRecTab">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -35,7 +35,7 @@
      <attribute name="title">
       <string>Spatial Recognition</string>
      </attribute>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="SubTabSpatialRecognition">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -45,7 +45,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpatialRecTab">
        <attribute name="title">
@@ -531,8 +531,21 @@ p, li { white-space: pre-wrap; }
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
+       <widget class="QPushButton" name="ConnectBut">
+        <property name="geometry">
+         <rect>
+          <x>404</x>
+          <y>80</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
       </widget>
-      <widget class="QWidget" name="DataCollectionSpatialRecTab">
+      <widget class="QWidget" name="DataProcessingSpatialRecTab">
        <attribute name="title">
         <string>Data Processing</string>
        </attribute>
@@ -548,7 +561,7 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Speech Recognition</string>
      </attribute>
-     <widget class="QTabWidget" name="tabWidget_2">
+     <widget class="QTabWidget" name="SubTabSpeechRecognition">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -558,7 +571,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpeechRecTab">
        <attribute name="title">
@@ -609,7 +622,7 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="DataCollectionSpeechRecTab">
+      <widget class="QWidget" name="DataProcessingSpeechRecTab">
        <attribute name="title">
         <string>Data Processing</string>
        </attribute>

@@ -10,14 +10,38 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from SpatialRec import  SpatialRecDataCollection
+import utils
 
 class Ui_SSRRecognition(object):
+    
+    def FindCOM(self):
+        self.StageControllerPort, self.DataCollectorPort = utils.COMFinder(self)
+        if self.StageControllerPort != '' and self.DataCollectorPort != '':
+            self.StageCOMIndecatorLabel.setText(self.StageControllerPort)
+            self.DCCOMIndecatorLabel.setText(self.DataCollectorPort)
+            self.StartSpatialRecogExperimentBut.setEnabled(True)
+            self.HomeDeviceBut.setEnabled(True)
+        else:
+            if self.StageControllerPort == '':
+                self.DialogBoxOutput.setText("Stage Controller not found")
+                try:
+                    self.DCCOMIndecatorLabel.setText(self.DataCollectorPort)
+                except:
+                    pass
+            else:
+                self.DialogBoxOutput.setText("Data Collector not found")
+                try:
+                    self.StageCOMIndecatorLabel.setText(self.StageControllerPort)
+                except:
+                    pass
+    
     def setupUi(self, SSRRecognition):
-        ## Setting up global Variables
+        ## Setting up global Variables for Speech Recognition Data Collection
         self.StageControllerPort = "" 
         self.DataCollectorPort = ""
         self.currAngle = "NaN"
         self.arduino = "NaN"
+        self.StageCalibStat = False
         SSRRecognition.setObjectName("SSRRecognition")
         SSRRecognition.resize(1123, 855)
         self.centralwidget = QtWidgets.QWidget(SSRRecognition)
@@ -30,9 +54,11 @@ class Ui_SSRRecognition(object):
         self.SpeechRecDCTitle.setObjectName("SpeechRecDCTitle")
         self.SpatialRecognitionTab = QtWidgets.QWidget()
         self.SpatialRecognitionTab.setObjectName("SpatialRecognitionTab")
-        self.tabWidget = QtWidgets.QTabWidget(self.SpatialRecognitionTab)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 1111, 771))
-        self.tabWidget.setObjectName("tabWidget")
+        self.SubTabSpatialRecognition = QtWidgets.QTabWidget(self.SpatialRecognitionTab)
+        self.SubTabSpatialRecognition.setGeometry(QtCore.QRect(0, 0, 1111, 771))
+        self.SubTabSpatialRecognition.setObjectName("SubTabSpatialRecognition")
+
+        #Spatial Recognition  Data Collection Tab
         self.DataCollectionSpatialRecTab = QtWidgets.QWidget()
         self.DataCollectionSpatialRecTab.setObjectName("DataCollectionSpatialRecTab")
         self.TilteLabel = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
@@ -134,18 +160,18 @@ class Ui_SSRRecognition(object):
         self.DirectionRotLabel.setFont(font)
         self.DirectionRotLabel.setTextFormat(QtCore.Qt.AutoText)
         self.DirectionRotLabel.setObjectName("DirectionRotLabel")
+        self.IncrementInput = QtWidgets.QLineEdit(self.ExperimentParamSetupGroupBox)
+        self.IncrementInput.setGeometry(QtCore.QRect(320, 30, 141, 41))
+        self.IncrementInput.setObjectName("IncrementInput")
+        self.RotAngleInput = QtWidgets.QLineEdit(self.ExperimentParamSetupGroupBox)
+        self.RotAngleInput.setGeometry(QtCore.QRect(320, 90, 141, 41))
+        self.RotAngleInput.setObjectName("RotAngleInput")
         self.DirectionSectionComboBox = QtWidgets.QComboBox(self.ExperimentParamSetupGroupBox)
         self.DirectionSectionComboBox.setGeometry(QtCore.QRect(320, 150, 141, 41))
         self.DirectionSectionComboBox.setObjectName("DirectionSectionComboBox")
         self.DirectionSectionComboBox.addItem("")
         self.DirectionSectionComboBox.addItem("")
         self.DirectionSectionComboBox.addItem("")
-        self.RotAngleInput = QtWidgets.QLineEdit(self.ExperimentParamSetupGroupBox)
-        self.RotAngleInput.setGeometry(QtCore.QRect(320, 90, 141, 41))
-        self.RotAngleInput.setObjectName("RotAngleInput")
-        self.IncrementInput = QtWidgets.QLineEdit(self.ExperimentParamSetupGroupBox)
-        self.IncrementInput.setGeometry(QtCore.QRect(320, 30, 141, 41))
-        self.IncrementInput.setObjectName("IncrementInput")
         self.DialogboxOutput = QtWidgets.QTextBrowser(self.DataCollectionSpatialRecTab)
         self.DialogboxOutput.setGeometry(QtCore.QRect(0, 630, 631, 101))
         self.DialogboxOutput.setObjectName("DialogboxOutput")
@@ -155,6 +181,7 @@ class Ui_SSRRecognition(object):
         font.setPointSize(12)
         self.HomeDeviceBut.setFont(font)
         self.HomeDeviceBut.setObjectName("HomeDeviceBut")
+        self.HomeDeviceBut.setEnabled(False)
         self.DCCOMLabel = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
         self.DCCOMLabel.setGeometry(QtCore.QRect(20, 110, 311, 41))
         font = QtGui.QFont()
@@ -171,23 +198,39 @@ class Ui_SSRRecognition(object):
         font.setPointSize(12)
         self.StartSpatialRecogExperimentBut.setFont(font)
         self.StartSpatialRecogExperimentBut.setObjectName("StartSpatialRecogExperimentBut")
+        self.StartSpatialRecogExperimentBut.setEnabled(False)
         self.ExperimentStatIndecator = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
         self.ExperimentStatIndecator.setGeometry(QtCore.QRect(770, 110, 221, 31))
         self.ExperimentStatIndecator.setAlignment(QtCore.Qt.AlignCenter)
         self.ExperimentStatIndecator.setObjectName("ExperimentStatIndecator")
-        self.tabWidget.addTab(self.DataCollectionSpatialRecTab, "")
-        self.DataCollectionSpatialRecTab1 = QtWidgets.QWidget()
-        self.DataCollectionSpatialRecTab1.setObjectName("DataCollectionSpatialRecTab1")
-        self.tabWidget.addTab(self.DataCollectionSpatialRecTab1, "")
+        self.ConnectBut = QtWidgets.QPushButton(self.DataCollectionSpatialRecTab, clicked = lambda : self.FindCOM())
+        self.ConnectBut.setGeometry(QtCore.QRect(404, 80, 91, 31))
+        self.ConnectBut.setObjectName("ConnectBut")
+        self.SubTabSpatialRecognition.addTab(self.DataCollectionSpatialRecTab, "")
+
+
+
+
+        ## Spatial recognition Processing Tab
+        self.DataProcessingSpatialRecTab = QtWidgets.QWidget()
+        self.DataProcessingSpatialRecTab.setObjectName("DataProcessingSpatialRecTab")
+        self.SubTabSpatialRecognition.addTab(self.DataProcessingSpatialRecTab, "")
+
+        ## Spatial recognition Training and Testing Tab
         self.TrainingSpatialRecTab = QtWidgets.QWidget()
         self.TrainingSpatialRecTab.setObjectName("TrainingSpatialRecTab")
-        self.tabWidget.addTab(self.TrainingSpatialRecTab, "")
+        self.SubTabSpatialRecognition.addTab(self.TrainingSpatialRecTab, "")
+
+
+        ############# Speech recognition sub tabs #################
         self.SpeechRecDCTitle.addTab(self.SpatialRecognitionTab, "")
         self.SpeechRecogntionTab = QtWidgets.QWidget()
         self.SpeechRecogntionTab.setObjectName("SpeechRecogntionTab")
-        self.tabWidget_2 = QtWidgets.QTabWidget(self.SpeechRecogntionTab)
-        self.tabWidget_2.setGeometry(QtCore.QRect(0, 0, 1111, 771))
-        self.tabWidget_2.setObjectName("tabWidget_2")
+        self.SubTabSpeechRecognition = QtWidgets.QTabWidget(self.SpeechRecogntionTab)
+        self.SubTabSpeechRecognition.setGeometry(QtCore.QRect(0, 0, 1111, 771))
+        self.SubTabSpeechRecognition.setObjectName("SubTabSpeechRecognition")
+
+        ## Speech recognition Data Collection Tab
         self.DataCollectionSpeechRecTab = QtWidgets.QWidget()
         self.DataCollectionSpeechRecTab.setObjectName("DataCollectionSpeechRecTab")
         self.SpeechRecDataCollectionTitle = QtWidgets.QLabel(self.DataCollectionSpeechRecTab)
@@ -206,10 +249,14 @@ class Ui_SSRRecognition(object):
         font.setPointSize(12)
         self.StartSpeechRecogExperimentBut.setFont(font)
         self.StartSpeechRecogExperimentBut.setObjectName("StartSpeechRecogExperimentBut")
-        self.tabWidget_2.addTab(self.DataCollectionSpeechRecTab, "")
-        self.DataCollectionSpeechRecTab1 = QtWidgets.QWidget()
-        self.DataCollectionSpeechRecTab1.setObjectName("DataCollectionSpeechRecTab1")
-        self.SpeechRecDataProcessingTitle = QtWidgets.QLabel(self.DataCollectionSpeechRecTab1)
+        self.SubTabSpeechRecognition.addTab(self.DataCollectionSpeechRecTab, "")
+
+
+
+        ## Speech recognition Data Processing Tab
+        self.DataProcessingSpeechRecTab = QtWidgets.QWidget()
+        self.DataProcessingSpeechRecTab.setObjectName("DataProcessingSpeechRecTab")
+        self.SpeechRecDataProcessingTitle = QtWidgets.QLabel(self.DataProcessingSpeechRecTab)
         self.SpeechRecDataProcessingTitle.setGeometry(QtCore.QRect(230, 0, 581, 61))
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -219,7 +266,10 @@ class Ui_SSRRecognition(object):
         self.SpeechRecDataProcessingTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.SpeechRecDataProcessingTitle.setAlignment(QtCore.Qt.AlignCenter)
         self.SpeechRecDataProcessingTitle.setObjectName("SpeechRecDataProcessingTitle")
-        self.tabWidget_2.addTab(self.DataCollectionSpeechRecTab1, "")
+        self.SubTabSpeechRecognition.addTab(self.DataProcessingSpeechRecTab, "")
+
+
+        ## Speech recognition Training and Testting Tab
         self.TrainingSpeechRecTab = QtWidgets.QWidget()
         self.TrainingSpeechRecTab.setObjectName("TrainingSpeechRecTab")
         self.SpeechRecTrAndTsTitle = QtWidgets.QLabel(self.TrainingSpeechRecTab)
@@ -232,7 +282,13 @@ class Ui_SSRRecognition(object):
         self.SpeechRecTrAndTsTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.SpeechRecTrAndTsTitle.setAlignment(QtCore.Qt.AlignCenter)
         self.SpeechRecTrAndTsTitle.setObjectName("SpeechRecTrAndTsTitle")
-        self.tabWidget_2.addTab(self.TrainingSpeechRecTab, "")
+        self.SubTabSpeechRecognition.addTab(self.TrainingSpeechRecTab, "")
+
+
+
+
+
+
         self.SpeechRecDCTitle.addTab(self.SpeechRecogntionTab, "")
         SSRRecognition.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(SSRRecognition)
@@ -245,8 +301,8 @@ class Ui_SSRRecognition(object):
 
         self.retranslateUi(SSRRecognition)
         self.SpeechRecDCTitle.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(0)
+        self.SubTabSpatialRecognition.setCurrentIndex(0)
+        self.SubTabSpeechRecognition.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SSRRecognition)
 
     def retranslateUi(self, SSRRecognition):
@@ -262,6 +318,7 @@ class Ui_SSRRecognition(object):
         self.ExperimentNameLabel.setText(_translate("SSRRecognition", "Experiment Name:"))
         self.ExperimentNameIndecator.setText(_translate("SSRRecognition", "----"))
         self.StageCOMIndecatorLabel.setText(_translate("SSRRecognition", "----"))
+        self.ConnectBut.setText(_translate("SSRRecognition", "Connect"))
         self.StageStatIndecator.setText(_translate("SSRRecognition", "----"))
         self.DCCOMIndecatorLabel.setText(_translate("SSRRecognition", "----"))
         self.StageStatLabel.setText(_translate("SSRRecognition", "Stage Status:"))
@@ -277,17 +334,17 @@ class Ui_SSRRecognition(object):
         self.label.setText(_translate("SSRRecognition", "Dialog Messages:"))
         self.StartSpatialRecogExperimentBut.setText(_translate("SSRRecognition", "Start Experiment"))
         self.ExperimentStatIndecator.setText(_translate("SSRRecognition", "----"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.DataCollectionSpatialRecTab), _translate("SSRRecognition", "Data Collection"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.DataCollectionSpatialRecTab1), _translate("SSRRecognition", "Data Processing"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.TrainingSpatialRecTab), _translate("SSRRecognition", "Training and Testing"))
+        self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.DataCollectionSpatialRecTab), _translate("SSRRecognition", "Data Collection"))
+        self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.DataProcessingSpatialRecTab), _translate("SSRRecognition", "Data Processing"))
+        self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.TrainingSpatialRecTab), _translate("SSRRecognition", "Training and Testing"))
         self.SpeechRecDCTitle.setTabText(self.SpeechRecDCTitle.indexOf(self.SpatialRecognitionTab), _translate("SSRRecognition", "Spatial Recognition"))
         self.SpeechRecDataCollectionTitle.setText(_translate("SSRRecognition", "Speech Recognition Test Data Collection"))
         self.StartSpeechRecogExperimentBut.setText(_translate("SSRRecognition", "Start Experiment"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.DataCollectionSpeechRecTab), _translate("SSRRecognition", "Data Collection"))
+        self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.DataCollectionSpeechRecTab), _translate("SSRRecognition", "Data Collection"))
         self.SpeechRecDataProcessingTitle.setText(_translate("SSRRecognition", "Speech Recognition Test Data Processing"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.DataCollectionSpeechRecTab1), _translate("SSRRecognition", "Data Processing"))
+        self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.DataProcessingSpeechRecTab), _translate("SSRRecognition", "Data Processing"))
         self.SpeechRecTrAndTsTitle.setText(_translate("SSRRecognition", "Speech Recognition Training and Testing"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.TrainingSpeechRecTab), _translate("SSRRecognition", "Training and Testing"))
+        self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.TrainingSpeechRecTab), _translate("SSRRecognition", "Training and Testing"))
         self.SpeechRecDCTitle.setTabText(self.SpeechRecDCTitle.indexOf(self.SpeechRecogntionTab), _translate("SSRRecognition", "Speech Recognition"))
 
 
