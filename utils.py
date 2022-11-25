@@ -47,11 +47,14 @@ def Inititialise(comPort):
             line = line.replace("\r\n", '')
 
         print("Starting")
-    arduino.close()
-    return 0
+    return 0, arduino
 
 ## Homming Sequence
 def Calibrate(comPort, arduino):
+    ### 
+    # The motor controller is setup so that if you 
+    # connect to arduino it will run the calibration sequence
+    ###
     arduino = serial.Serial(comPort, 9600, timeout=1)
     line = arduino.readline()
     print(line)
@@ -73,13 +76,11 @@ def Calibrate(comPort, arduino):
             line = line.replace("\r\n", '')
 
         print("Starting")
-    arduino.close()
-    return 0
+    return 0, arduino
 
 ## Set Angles
-def AngleSet(Angle, comPort, currAngle):
-    arduino = serial.Serial(comPort, 9600, timeout=1)
-    angle = Angle
+def AngleSet(angle, arduino, currAngle):
+    angle = angle
     if angle==0:
         if currAngle>180:
             angle = 360
@@ -104,3 +105,4 @@ def AngleSet(Angle, comPort, currAngle):
     currAng = int(line)
     print("Speaker is at ", currAng, " Degrees now")
     return currAng
+    

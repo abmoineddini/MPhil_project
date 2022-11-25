@@ -37,11 +37,6 @@ class Ui_SSRRecognition(object):
     
     def setupUi(self, SSRRecognition):
         ## Setting up global Variables for Speech Recognition Data Collection
-        self.StageControllerPort = "" 
-        self.DataCollectorPort = ""
-        self.currAngle = "NaN"
-        self.arduino = "NaN"
-        self.StageCalibStat = False
         SSRRecognition.setObjectName("SSRRecognition")
         SSRRecognition.resize(1123, 855)
         self.centralwidget = QtWidgets.QWidget(SSRRecognition)
@@ -58,7 +53,12 @@ class Ui_SSRRecognition(object):
         self.SubTabSpatialRecognition.setGeometry(QtCore.QRect(0, 0, 1111, 771))
         self.SubTabSpatialRecognition.setObjectName("SubTabSpatialRecognition")
 
-        #Spatial Recognition  Data Collection Tab
+        #Spatial Recognition Data Collection Tab
+        self.StageControllerPort = "" 
+        self.DataCollectorPort = ""
+        self.currAngle = "NaN"
+        self.arduino = "NaN"
+        self.StageCalibStat = False
         self.DataCollectionSpatialRecTab = QtWidgets.QWidget()
         self.DataCollectionSpatialRecTab.setObjectName("DataCollectionSpatialRecTab")
         self.TilteLabel = QtWidgets.QLabel(self.DataCollectionSpatialRecTab)
