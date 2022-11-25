@@ -23,13 +23,13 @@ class Ui_SSRRecognition(object):
             self.HomeDeviceBut.setEnabled(True)
         else:
             if self.StageControllerPort == '':
-                self.DialogBoxOutput.setText("Stage Controller not found")
+                self.DialogboxOutput.setText("Stage Controller not found")
                 try:
                     self.DCCOMIndecatorLabel.setText(self.DataCollectorPort)
                 except:
                     pass
             else:
-                self.DialogBoxOutput.setText("Data Collector not found")
+                self.DialogboxOutput.setText("Data Collector not found")
                 try:
                     self.StageCOMIndecatorLabel.setText(self.StageControllerPort)
                 except:
