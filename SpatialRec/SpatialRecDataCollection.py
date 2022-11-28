@@ -7,45 +7,8 @@ import serial
 import pandas as pd
 import random
 import math
+from SpatialRec import Spatial_Rec_utils
 
-def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
-    Arduino = serial.Serial(DataCollectionCOM , 2000000, timeout=1)
-    time.sleep(5)
-    Input = "Time"
-    for i in range(Channels):
-        ChName = "Ch" + str(i+1)
-        Input = np.append(Input, ChName)
-    
-    stime = time.time_ns()
-    difTime = 0
-    Period = Period*(10**9)
-    while difTime <= Period:
-        line = Arduino.readline()
-        if line != (''):
-            
-            try:
-                line = line.decode()
-            except:
-                continue
-            else:
-                line = line.replace("\r\n", '')
-                line = line.split(" ")
-                if all(item.isdigit() for item in line) and len(line) == Channels:
-                    difTime = time.time_ns() - stime
-                    Input = np.vstack((Input, np.append(str(difTime), line)))
-    
-    pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
-
-def plotSize(ChannelNum):
-    i = int(math.sqrt(ChannelNum))
-    j = i
-    if i**2 < ChannelNum:
-        if i == j:
-            i += 1
-    if j*i < ChannelNum:
-        if i > j:
-            j += 1
-    return i, j
 
 def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currAngle, NumSamples, NumChannels, Period, Increment, RotAngle, Direction, ExperimentName, ExperimentDIR):
     # Fining all the classes in the range of rotation
@@ -74,13 +37,13 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
                     NameTest = False
 
             SampleName = os.path.join(RawDataDIR, CSVName)
-            DataCollect(DataCollectionCOM, NumChannels, Period, SampleName)
+            Spatial_Rec_utils.DataCollect(DataCollectionCOM, NumChannels, Period, SampleName)
             if InitalInspect:
-                pass
+                Spatial_Rec_utils.plotPreviewFigures(SampleName, NumChannels)
             else:
                 RandInspect = random.randint(0, 70)
                 if RandInspect == 7:
-                    pass
+                    Spatial_Rec_utils.plotPreviewFigures(SampleName, NumChannels)
 
 
             totalSampleProcessed += 1
@@ -94,13 +57,15 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
 ## Starting the Exepriment Function
 def StartSpatialRecogExperiment(self, DialogBoxOutput):
     self.StageStatIndecator.setText("Calibrating...")
-
+      
     ## Calibrating the Stage
-    if self.StageCalibStat == False or self.currAngle != 0:  
+    if self.StageCalibStat == False or self.currAngle != 0: 
+        
         self.currAngle, self.arduino = utils.Inititialise(self.StageControllerPort)
         # time.sleep(2)
         self.StageStatIndecator.setText("Ready!")
         self.StageCalibStat = True
+
 
     
     ## Valifying all experimental params are set correctly

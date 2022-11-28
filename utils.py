@@ -106,3 +106,12 @@ def AngleSet(angle, arduino, currAngle):
     print("Speaker is at ", currAng, " Degrees now")
     return currAng
     
+
+# ## Enabling and Disabling Window
+# def Enable_Disable_Window(s, Condition):
+#     if Condition:
+#         print("Window Enabled")
+#         self.centralwidget.setEnabled(True)
+#     else:
+#         print("Window Disables")
+#         self.centralwidget.setEnabled(False)

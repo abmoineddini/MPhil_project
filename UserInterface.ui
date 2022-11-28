@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>SSRRecognition</class>
  <widget class="QMainWindow" name="SSRRecognition">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,13 +17,16 @@
    <string>SSR User Interface</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <widget class="QTabWidget" name="SpeechRecTab">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>0</y>
       <width>1121</width>
-      <height>821</height>
+      <height>831</height>
      </rect>
     </property>
     <property name="font">
@@ -45,7 +51,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpatialRecTab">
        <attribute name="title">
