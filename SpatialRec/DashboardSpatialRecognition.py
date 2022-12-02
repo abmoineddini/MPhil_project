@@ -14,6 +14,9 @@ import signal
 import webbrowser
 from threading import Timer
 
+import argparse
+ 
+
 
 
 def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
@@ -184,7 +187,20 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
         Timer(1, open_browser).start()
         app.run(debug=True)
 
+parser = argparse.ArgumentParser(description="Dashbaord for spatial recognition Dashboard",
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("-s", "--samples", help="Number of Samples")
+parser.add_argument("-i", "--increment", help="Increment of the test")
+parser.add_argument("-r", "--range_rotation", help="Total range of rotation")
+parser.add_argument("-d", "--directory", help="Experiment Directory")
+args = vars(parser.parse_args())
+
+numOfSamples = int(args["samples"])
+Increment = int(args["increment"])
+RangeRotation = int(args["range_rotation"])
+Directory = args["directory"]
         
-DataCollectionDashboard(10, 30, 90)
+DataCollectionDashboard(samples=numOfSamples, Increment=Increment, RangeRotation=RangeRotation, Directory=Directory)
 
 
+# python DashboardSpatialRecognition.py -s 10 -i 30 -r 90 -d "../testing/temp/"
