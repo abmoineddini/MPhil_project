@@ -80,7 +80,6 @@ def Calibrate(comPort, arduino):
 
 ## Set Angles
 def AngleSet(angle, arduino, currAngle):
-    angle = angle
     if angle==0:
         if currAngle>180:
             angle = 360
@@ -106,6 +105,48 @@ def AngleSet(angle, arduino, currAngle):
     print("Speaker is at ", currAng, " Degrees now")
     return currAng
     
+## Set Angle + Calibration
+def angleSetPluseCalibration(comPort, angle):
+    arduino = serial.Serial(comPort, 9600, timeout=1)
+    line = arduino.readline()
+    print(line)
+    try:
+        string = line.decode()
+    except:
+        print("ignored")
+    else:
+        numS = string.replace("\r\n", '')
+
+        while numS != "ready":
+            line = arduino.readline()
+            line = line.decode()
+            numS = line.replace("\r\n", '')
+        while line != "Starting":
+            arduino.write(b"rdy")
+            line = arduino.readline()
+            line = line.decode()
+            line = line.replace("\r\n", '')
+
+        print("Starting")
+
+    angle = str(angle)
+    arduino.write(angle.encode())
+    line = arduino.readline()
+    line = line.decode()
+    line = line.replace("\r\n", '')
+    while line!="done":
+        line = arduino.readline()
+        print(line)
+        line = line.decode()
+        line = line.replace("\r\n", '')
+
+    while not line.isdigit():
+        line = arduino.readline()
+        print(line)
+        line = line.decode()
+        line = line.replace("\r\n", '')
+    currAng = int(line)
+    print("Speaker is at ", currAng, " Degrees now")
 
 # ## Enabling and Disabling Window
 # def Enable_Disable_Window(s, Condition):

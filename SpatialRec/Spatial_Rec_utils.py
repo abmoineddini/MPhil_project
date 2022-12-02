@@ -3,6 +3,16 @@ import serial
 import math
 import pandas as pd
 import numpy as np
+import dash
+from dash import dcc, html
+import plotly.express as px
+from dash.dependencies import Input, Output
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import os
+from threading import Timer
+import webbrowser
+
 
 
 def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
@@ -32,6 +42,10 @@ def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
                     Input = np.vstack((Input, np.append(str(difTime), line)))
     
     pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
+    Arduino.close()
+    
+    pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
+
 
 def plotSize(ChannelNum):
     i = int(math.sqrt(ChannelNum))
@@ -46,3 +60,6 @@ def plotSize(ChannelNum):
 
 def plotPreviewFigures(CSVFileName, NumChannels):
     pass
+
+
+
