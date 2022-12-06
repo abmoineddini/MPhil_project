@@ -4,47 +4,91 @@ import time
 import paho.mqtt.client as paho
 from paho import mqtt
 import passwords
-# setting callbacks for different events to see if it works, print the message etc.
-def on_connect(client, userdata, flags, rc, properties=None):
-    print("CONNACK received with code %s." % rc)
 
-# with this callback you can see if your publish was successful
-def on_publish(client, userdata, mid, properties=None):
-    print("mid: " + str(mid))
 
-# print which topic was subscribed to
-def on_subscribe(client, userdata, mid, granted_qos, properties=None):
-    print("Subscribed: " + str(mid) + " " + str(granted_qos))
+def Sub_Spatial_Rec_Data_Collection(TestName):
+    myGlobalMessagePayload = ''
+    # setting callbacks for different events to see if it works, print the message etc.
+    def on_connect(client, userdata, flags, rc, properties=None):
+        print("CONNACK received with code %s." % rc)
 
-# print message, useful for checking if it was successful
-def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    # setting callback for getting logs
+    def on_log(client, userdata, level, buf):
+        print("log : " + buf)
 
-# using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
-# userdata is user defined data of any type, updated by user_data_set()
-# client_id is the given name of the client
-client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
-client.on_connect = on_connect
+    # print which topic was subscribed to
+    def on_subscribe(client, userdata, mid, granted_qos, properties=None):
+        print("Subscribed: " + str(mid) + " " + str(granted_qos))
 
-# enable TLS for secure connection
-client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
-# set username and password
-UserName, password = passwords.mqttClient()
-client.username_pw_set(UserName, password)
-# connect to HiveMQ Cloud on port 8883 (default for MQTT)
-client.connect("9526343732ac44a4954317841c2548d1.s2.eu.hivemq.cloud", 8883)
+    # print message, useful for checking if it was successful
+    def on_message(client, userdata, msg):
+        print("msg : " + msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+        global myGlobalMessagePayload
+        myGlobalMessagePayload = str(msg.payload)
+        return msg.payload
 
-# setting callbacks, use separate functions like above for better visibility
-client.on_subscribe = on_subscribe
-client.on_message = on_message
-# client.on_publish = on_publish
+    client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
+    
 
-# subscribe to all topics of encyclopedia by using the wildcard "#"
-client.subscribe("Spatial/30Deg", qos=1)
+    # enable TLS for secure connection
+    client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
+    # set username and password
+    UserName, password = passwords.mqttClient()
+    client.username_pw_set(UserName, password)
+    # connect to HiveMQ Cloud on port 8883 (default for MQTT)
+    client.subscribe(topic=TestName, qos=0)
 
-# a single publish, this can also be done in loops, etc.
-for i in range (10):
-    client.publish("Spatial/30Deg", payload= "30:10, 30:10, 30:10, 30:10", qos=1)
+    client.on_connect = on_connect
+    client.on_log = on_log
+    client.on_subscribe = on_subscribe
+    client.on_message = on_message
 
-# loop_forever for simplicity, here you need to stop the loop manually
-# you can also use loop_start and loop_stop
+    client.connect("9526343732ac44a4954317841c2548d1.s2.eu.hivemq.cloud", 8883)
+
+    client.loop_start()
+    time.sleep(7)
+    client.loop_stop()
+    client.disconnect
+
+    return myGlobalMessagePayload
+
+
+
+def Pub_Spatial_Rec_Data_Collection(TestName, Progress):
+    def on_connect(client, userdata, flags, rc, properties=None):
+        print("CONNACK received with code %s." % rc)
+
+    # with this callback you can see if your publish was successful
+    def on_publish(client, userdata, mid, properties=None):
+        print("mid: " + str(mid))
+
+    def on_log(client, userdata, level, buf):
+        print("log : " + buf)
+
+    client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
+    client.on_connect = on_connect
+    client.on_log = on_log
+
+    # enable TLS for secure connection
+    client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
+    # client.tls_insecure_set(True)
+    # set username and password
+    UserName, password = passwords.mqttClient()
+    client.username_pw_set(UserName, password)
+    # connect to HiveMQ Cloud on port 8883 (default for MQTT)
+    client.connect("9526343732ac44a4954317841c2548d1.s2.eu.hivemq.cloud", 8883)
+
+    client.on_publish = on_publish
+
+    client.loop_start()
+    client.publish(topic=TestName, payload= Progress, qos=0)
+    time.sleep(3)
+    client.loop_stop()
+
+    client.disconnect
+
+
+
+
+
+
