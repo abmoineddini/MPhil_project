@@ -8,6 +8,7 @@ import pandas as pd
 import random
 import math
 from SpatialRec import Spatial_Rec_utils
+import subprocess
 
 
 def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currAngle, NumSamples, NumChannels, Period, Increment, RotAngle, Direction, ExperimentName, ExperimentDIR):
@@ -16,6 +17,10 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
         Increments = np.linsapce(0, RotAngle, int(RotAngle/Increment)+1)
     else:  
         Increments = np.linsapce(360-RotAngle, 0, int(RotAngle/Increment)+1)
+
+    # Start the web base dashboard data monitoring
+    dashStartCMD = "python SpatialRec/DashboardSpatialRecognition.py -d " + ExperimentDIR +"/RawData"
+    DashBoardStart = subprocess.Popen(["start", "cmd", "/k", dashStartCMD], shell = True)
     
     totalSampleProcessed = 0
     InitalInspect = True

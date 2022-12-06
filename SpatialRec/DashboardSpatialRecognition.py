@@ -13,7 +13,10 @@ import serial
 import signal
 import webbrowser
 from threading import Timer
-
+import time
+import paho.mqtt.client as paho
+from paho import mqtt
+# import passwords
 import argparse
  
 
@@ -204,3 +207,6 @@ DataCollectionDashboard(samples=numOfSamples, Increment=Increment, RangeRotation
 
 
 # python DashboardSpatialRecognition.py -s 10 -i 30 -r 90 -d "../testing/temp/"
+
+import subprocess
+p = subprocess.Popen(["start", "cmd", "/k", 'python DashboardSpatialRecognition.py -s 10 -i 30 -r 90 -d "../testing/temp/"'], shell = True)
