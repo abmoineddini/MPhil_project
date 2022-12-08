@@ -17,16 +17,17 @@ import time
 import paho.mqtt.client as paho
 from paho import mqtt
 import argparse
- 
+from IoTConnection import *
 
 
 
-def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
+def DataCollectionDashboard(Directory):
     mypath = Directory
     CSVFiles = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
 
     progress = 0
     Start = True
+
 
     df_prog = pd.DataFrame({'names' : [' ', 'Progress'],
                             'values' :  [100 - progress, progress]})
@@ -62,13 +63,9 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
 
     graphView1 = dcc.Graph(figure=pieFig)
     graphView2 = dcc.Graph(figure={})
-    CounterVal = dcc.Input(id = "Samples", type="number", min=1, max=samples, step=1, value=1)
-    IncrementCounter = dcc.Input(id = "Increments", type="number", min=0, max=RangeRotation, step=Increment, value=0)
     app.layout = html.Div([
-            html.Div([CounterVal, IncrementCounter
-            ],style={'display': 'none'}),
             html.Div([html.H1('Progress and Data Preview'), 
-            dcc.Interval(id='interval-component',interval=10*1000, n_intervals=1, max_intervals=samples),
+            dcc.Interval(id='interval-component',interval=5*1000, n_intervals=1),
             html.Div([    
                 html.H4("Select the Test"),
                 dropDownMen_test], style={"width" : "75%", 'display': 'inline-block'}),
@@ -84,34 +81,31 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
         ])
     ############### Plot Progress ##################
     @app.callback([Output(graphView1, 'figure'), 
-                    Output(component_id=dropDownMen_test, component_property='options'), 
-                    Output('Samples', 'value')], 
-                    Input('Samples', 'value'), 
-                    Input('Samples', 'max'), 
-                    Input('Increments', 'value'), 
-                    Input('Increments', 'max'), 
-                    Input('Increments', 'step'), 
+                    Output(component_id=dropDownMen_test, component_property='options')], 
                     Input('interval-component', 'n_intervals'))   
-    def collectData(sample, maxVal, currIncrement, RangeRot, Increment, n):
-        progress_curr = 100*(sample/maxVal)
-        totalSampleCollected = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
-        prog_total = 100*(len(totalSampleCollected)/(maxVal*(int(RangeRot/Increment)+1)))
-        
-        Spatial_Rec_utils.DataCollect("COM4", 4, 2, "testing/temp/90-test-"+str(sample)+".csv")
+    def collectData(n):
+        Data = Data_Collection_Sub_IoT(Directory)
+
+        Data = Data.split(" ")
+        ExperimentName = Data[0]
+        Progress_curr = Data[1]
+        progress_curr = Progress_curr.split(":")[1]
 
         df_prog = pd.DataFrame({'names' : [' ', 'Progress'],
                                 'values' :  [100 - progress_curr, progress_curr]})
 
-        df_prog_total = pd.DataFrame({'names' : [' ', 'Progress'],
-                                    'values' :  [100 - prog_total, prog_total]})
+        names = [" "]
+        values = [100]
+        for i in Data[2:]:
+            names.append("Progress " + i.split(":")[1] + chr(176))
+            values.append(int(i.split(":")[0]))
 
-        external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-        app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+        for i in values[1:]:
+            values[0] = values[0] + i
 
-        dropDownMen_test = dcc.Dropdown(options=CSVFiles, 
-                                    placeholder="Select a Test", 
-                                    clearable=False, 
-                                    style={"width" : "50%"})
+        df_prog_total = pd.DataFrame({'names' : names,
+                                    'values' :  values})
+
 
         ## Current Test progress pie chart
         piChart_current = go.Pie(labels=df_prog.loc[:,'names'], 
@@ -126,9 +120,10 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
                                         hole = 0.5,
                                         marker=dict(colors=["white", "#636EFA"]),
                                         sort=False)
+        
+        titles = ("Collecting : " + Progress_curr.split(":")[0] + chr(176), "Overall Progress")
 
-
-        pieFig = make_subplots(rows=2, cols=1, specs=[[{"type": "domain"}],[{"type": "domain"}]])
+        pieFig = make_subplots(rows=2, cols=1, subplot_titles=titles, specs=[[{"type": "domain"}],[{"type": "domain"}]])
         pieFig.add_trace(piChart_current, row=1, col=1)
         pieFig.add_trace(piChart_total, row=2, col=1)
 
@@ -137,7 +132,7 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
         options = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
         
         sample = sample+1
-        return graphView1, options, sample
+        return graphView1, options
     
 
     ############### Plot Figures ################
@@ -148,7 +143,7 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
             fig = go.FigureWidget(make_subplots(rows=1, cols=1))
 
         else:
-            df = pd.read_csv(os.path.join("testing/temp", str(SampleNumber)))    
+            df = pd.read_csv(os.path.join("Directory", str(SampleNumber)))    
             cols, rows = Spatial_Rec_utils.plotSize((len(df.axes[1])-2))
             titles = ()
             for i in range(len(df.axes[1])-2):
@@ -191,18 +186,68 @@ def DataCollectionDashboard(samples, Increment, RangeRotation, Directory):
 
 parser = argparse.ArgumentParser(description="Dashbaord for spatial recognition Dashboard",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-s", "--samples", help="Number of Samples")
-parser.add_argument("-i", "--increment", help="Increment of the test")
-parser.add_argument("-r", "--range_rotation", help="Total range of rotation")
+
 parser.add_argument("-d", "--directory", help="Experiment Directory")
 args = vars(parser.parse_args())
 
-numOfSamples = int(args["samples"])
-Increment = int(args["increment"])
-RangeRotation = int(args["range_rotation"])
 Directory = args["directory"]
         
-DataCollectionDashboard(samples=numOfSamples, Increment=Increment, RangeRotation=RangeRotation, Directory=Directory)
+DataCollectionDashboard(Directory=Directory)
 
 
 # python DashboardSpatialRecognition.py -s 10 -i 30 -r 90 -d "../testing/temp/"
+    # @app.callback([Output(graphView1, 'figure'), 
+    #                 Output(component_id=dropDownMen_test, component_property='options'), 
+    #                 Output('Samples', 'value')], 
+    #                 Input('Samples', 'value'), 
+    #                 Input('Samples', 'max'), 
+    #                 Input('Increments', 'value'), 
+    #                 Input('Increments', 'max'), 
+    #                 Input('Increments', 'step'), 
+    #                 Input('interval-component', 'n_intervals'))   
+    # def collectData(sample, maxVal, currIncrement, RangeRot, Increment, n):
+    #     progress_curr = 100*(sample/maxVal)
+    #     totalSampleCollected = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
+    #     prog_total = 100*(len(totalSampleCollected)/(maxVal*(int(RangeRot/Increment)+1)))
+        
+    #     Spatial_Rec_utils.DataCollect("COM4", 4, 2, "testing/temp/90-test-"+str(sample)+".csv")
+
+    #     df_prog = pd.DataFrame({'names' : [' ', 'Progress'],
+    #                             'values' :  [100 - progress_curr, progress_curr]})
+
+    #     df_prog_total = pd.DataFrame({'names' : [' ', 'Progress'],
+    #                                 'values' :  [100 - prog_total, prog_total]})
+
+    #     external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+    #     app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+    #     dropDownMen_test = dcc.Dropdown(options=CSVFiles, 
+    #                                 placeholder="Select a Test", 
+    #                                 clearable=False, 
+    #                                 style={"width" : "50%"})
+
+    #     ## Current Test progress pie chart
+    #     piChart_current = go.Pie(labels=df_prog.loc[:,'names'], 
+    #                                     values=df_prog.loc[:, 'values'], 
+    #                                     hole = 0.5,
+    #                                     marker=dict(colors=["white", "#636EFA"]),
+    #                                     sort=False)
+
+    #     ## Overall Test progress pie chart
+    #     piChart_total = go.Pie(labels=df_prog_total.loc[:,'names'], 
+    #                                     values=df_prog_total.loc[:, 'values'], 
+    #                                     hole = 0.5,
+    #                                     marker=dict(colors=["white", "#636EFA"]),
+    #                                     sort=False)
+
+
+    #     pieFig = make_subplots(rows=2, cols=1, specs=[[{"type": "domain"}],[{"type": "domain"}]])
+    #     pieFig.add_trace(piChart_current, row=1, col=1)
+    #     pieFig.add_trace(piChart_total, row=2, col=1)
+
+    #     graphView1 = pieFig
+
+    #     options = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
+        
+    #     sample = sample+1
+    #     return graphView1, options, sample
