@@ -8,10 +8,13 @@ def Data_Collection_Pub_IoT(TestName, Value):
     aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
     group = aio.groups("spatialdatacollection")
+
     if "Spatial" in TestName:
         feedName = "spatialdatacollection" + ".datacollection"
-    else:
+    if "Speech" in TestName:
         feedName = "speechdatacollection" + ".datacollection"
+    else:
+        feedName = "default" + ".testing"
     
     try:
         feed = aio.feeds(feedName)
@@ -36,8 +39,10 @@ def Data_Collection_Sub_IoT(TestName):
 
     if "Spatial" in TestName:
         feedName = "spatialdatacollection" + ".datacollection"
-    else:
+    if "Speech" in TestName:
         feedName = "speechdatacollection" + ".datacollection"
+    else:
+        feedName = "default" + ".testing"
 
     data = aio.receive(feedName)
 

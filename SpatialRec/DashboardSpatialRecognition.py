@@ -17,7 +17,9 @@ import time
 import paho.mqtt.client as paho
 from paho import mqtt
 import argparse
-from IoTConnection import *
+import sys
+sys.path.append('../MPhil_Softwares')
+import IoTConnection
 
 
 
@@ -68,9 +70,9 @@ def DataCollectionDashboard(Directory):
             dcc.Interval(id='interval-component',interval=5*1000, n_intervals=1),
             html.Div([    
                 html.H4("Select the Test"),
-                dropDownMen_test], style={"width" : "75%", 'display': 'inline-block'}),
+                dropDownMen_test], style={"width" : "80%", 'display': 'inline-block'}),
             html.Div([
-                html.H3("Progress")], style={"width" : "25%", 'display': 'inline-block'}),
+                html.H3("Progress")], style={"width" : "20%", 'display': 'inline-block'}),
             html.Div([
                 graphView2], style={"width" : "75%", 'display': 'inline-block'}),
             html.Div([
@@ -84,24 +86,23 @@ def DataCollectionDashboard(Directory):
                     Output(component_id=dropDownMen_test, component_property='options')], 
                     Input('interval-component', 'n_intervals'))   
     def collectData(n):
-        Data = Data_Collection_Sub_IoT(Directory)
+        Data = IoTConnection.Data_Collection_Sub_IoT(Directory)
 
-        Data = Data.split(" ")
         ExperimentName = Data[0]
         Progress_curr = Data[1]
-        progress_curr = Progress_curr.split(":")[1]
+        progress_curr = int(Progress_curr.split(":")[1])
 
-        df_prog = pd.DataFrame({'names' : [' ', 'Progress'],
+        df_prog = pd.DataFrame({'names' : [' ', 'Current\nProgress'],
                                 'values' :  [100 - progress_curr, progress_curr]})
 
         names = [" "]
-        values = [100]
+        values = [100*(len(Data)-2)]
         for i in Data[2:]:
-            names.append("Progress " + i.split(":")[1] + chr(176))
-            values.append(int(i.split(":")[0]))
+            names.append("Progress " + i.split(":")[0] + chr(176))
+            values.append(int(i.split(":")[1]))
 
         for i in values[1:]:
-            values[0] = values[0] + i
+            values[0] = values[0] - i
 
         df_prog_total = pd.DataFrame({'names' : names,
                                     'values' :  values})
@@ -118,7 +119,7 @@ def DataCollectionDashboard(Directory):
         piChart_total = go.Pie(labels=df_prog_total.loc[:,'names'], 
                                         values=df_prog_total.loc[:, 'values'], 
                                         hole = 0.5,
-                                        marker=dict(colors=["white", "#636EFA"]),
+                                        marker=dict(colors=["white", "#bcbd22"]),
                                         sort=False)
         
         titles = ("Collecting : " + Progress_curr.split(":")[0] + chr(176), "Overall Progress")
@@ -131,7 +132,6 @@ def DataCollectionDashboard(Directory):
 
         options = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
         
-        sample = sample+1
         return graphView1, options
     
 
@@ -143,7 +143,7 @@ def DataCollectionDashboard(Directory):
             fig = go.FigureWidget(make_subplots(rows=1, cols=1))
 
         else:
-            df = pd.read_csv(os.path.join("Directory", str(SampleNumber)))    
+            df = pd.read_csv(os.path.join(Directory, str(SampleNumber)))    
             cols, rows = Spatial_Rec_utils.plotSize((len(df.axes[1])-2))
             titles = ()
             for i in range(len(df.axes[1])-2):
