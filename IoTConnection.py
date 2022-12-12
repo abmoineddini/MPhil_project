@@ -11,7 +11,7 @@ def Data_Collection_Pub_IoT(TestName, Value):
 
     if "Spatial" in TestName:
         feedName = "spatialdatacollection" + ".datacollection"
-    if "Speech" in TestName:
+    elif "Speech" in TestName:
         feedName = "speechdatacollection" + ".datacollection"
     else:
         feedName = "default" + ".testing"
@@ -39,7 +39,7 @@ def Data_Collection_Sub_IoT(TestName):
 
     if "Spatial" in TestName:
         feedName = "spatialdatacollection" + ".datacollection"
-    if "Speech" in TestName:
+    elif "Speech" in TestName:
         feedName = "speechdatacollection" + ".datacollection"
     else:
         feedName = "default" + ".testing"
@@ -51,9 +51,10 @@ def Data_Collection_Sub_IoT(TestName):
     data = data[3].split(" ")
 
     ExperimentName = data[0]
-    print("Experiment Name : " + ExperimentName)
-    for i in range(1,len(data)):
-        print("{} degee" + chr(176) +"{}% Completed".format(data[i].split(":")[0], data[i].split(":")[1]))
+    # print("Experiment Name : " + ExperimentName)
+    # for i in range(1,len(data)):
+    #     print("{} degee" + chr(176) +"{}% Completed".format(data[i].split(":")[0], data[i].split(":")[1]))
+    print(data)
     return data
 
 # val = "30:10 30:10 0:100 60:0 90:0 120:0"

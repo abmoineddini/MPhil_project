@@ -9,14 +9,25 @@ import random
 import math
 from SpatialRec import Spatial_Rec_utils
 import subprocess
+import IoTConnection
+
 
 
 def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currAngle, NumSamples, NumChannels, Period, Increment, RotAngle, Direction, ExperimentName, ExperimentDIR):
     # Fining all the classes in the range of rotation
+    print(Increment)
     if Direction == 1:
-        Increments = np.linsapce(0, RotAngle, int(RotAngle/Increment)+1)
+        Increments = np.linspace(0, RotAngle, int(RotAngle/Increment)+1)
     else:  
-        Increments = np.linsapce(360-RotAngle, 0, int(RotAngle/Increment)+1)
+        Increments = np.linspace(360-RotAngle, 0, int(RotAngle/Increment)+1)
+    print(Increments)
+    progressMatrix = ""
+    for i in Increments:
+        progressMatrix += str(i) + ":" + "0 "
+    
+    print(progressMatrix)
+    CompleteprogressMatrix = "0:0 " + progressMatrix
+    IoTConnection.Data_Collection_Pub_IoT(ExperimentDIR, CompleteprogressMatrix)
 
     # Start the web base dashboard data monitoring
     dashStartCMD = "python SpatialRec/DashboardSpatialRecognition.py -d " + ExperimentDIR +"/RawData"
@@ -26,16 +37,19 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
     InitalInspect = True
     for Angle in Increments:
         # Setting Angle
-        currAngle = utils.AngleSet(Angle, StageController, currAngle)
+        if Angle != 0:
+            currAngle = utils.AngleSet(Angle, StageController, currAngle)
+            time.sleep(1)
 
         for Sample in range(NumSamples):
             # Finding Suitable name for the sample
             NameTest = True
             RawDataDIR = os.path.join(ExperimentDIR, "RawData")
             testNum = 1
+            Files = [f for f in os.listdir(RawDataDIR) if os.path.isfile(os.path.join(RawDataDIR, f))]
             while NameTest:
-                CSVName = str(Increment) + '-Test-'+ str(testNum) + '.csv'
-                if CSVName in RawDataDIR:
+                CSVName = str(Angle) + '-Test-'+ str(testNum) + '.csv'
+                if CSVName in Files:
                     print("File Already exist, Trying another name.")
                     testNum = testNum+1
                 else:
@@ -43,13 +57,19 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
 
             SampleName = os.path.join(RawDataDIR, CSVName)
             Spatial_Rec_utils.DataCollect(DataCollectionCOM, NumChannels, Period, SampleName)
-            if InitalInspect:
-                Spatial_Rec_utils.plotPreviewFigures(SampleName, NumChannels)
-            else:
-                RandInspect = random.randint(0, 70)
-                if RandInspect == 7:
-                    Spatial_Rec_utils.plotPreviewFigures(SampleName, NumChannels)
+            
+            for i in range(len(progressMatrix.split(" "))):
+                if progressMatrix.split(" ")[i].split(":")[0] == str(Angle):
+                    progressMatrix.split(" ")[i].split(":")[1] = 100 * (Sample/NumSamples)
 
+            try:
+                currProgress = str(Angle) + ":" + str(100 * (Sample/NumSamples)) + " "
+                CompleteprogressMatrix = currProgress + progressMatrix
+                print(CompleteprogressMatrix)
+                IoTConnection.Data_Collection_Pub_IoT(ExperimentDIR, progressMatrix)
+
+            except:
+                print("Connection busy will update in next run")
 
             totalSampleProcessed += 1
 
@@ -87,7 +107,6 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                 try:
                     self.Increment = int(self.IncrementInput.text())
                     if self.Increment <= 180:
-
                         try:
                             self.RotAngle = int(self.RotAngleInput.text())
                             if self.RotAngle >= self.Increment*2 and self.RotAngle <= 360:
@@ -103,10 +122,21 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                                 
                                 ## Creating relavent Directories
                                 self.ExperimentStatIndecator.setText("Starting...")
-                                ExperimentName, ExperimentDIR = DataManagement.creatDirectorySpatialRec(self.Increment, self.RotAngle, self.NNumberOfChannels)    
+                                print("starting")
+                                ExperimentName, ExperimentDIR = DataManagement.creatDirectorySpatialRec(self.Increment, self.RotAngle, self.NumberOfChannels)    
+                                print("Relavent Directories Creates")
                                 self.ExperimentNameIndecator.setText(ExperimentName)
-
-
+                                print(self.DataCollectorPort, self.StageControllerPort, 
+                                                self.arduino, 0, self.NumberOfSamples, self.NumberOfChannels, 
+                                                self.Period, self.Increment, self.RotAngle, self.Direction, 
+                                                ExperimentName, ExperimentDIR)
+                                try:
+                                    DataCollection(self.DataCollectorPort, self.StageControllerPort, 
+                                                self.arduino, 0, self.NumberOfSamples, self.NumberOfChannels, 
+                                                self.Period, self.Increment, self.RotAngle, self.Direction, 
+                                                ExperimentName, ExperimentDIR)
+                                except:
+                                    print("Error Starting the test!")
                             else:
                                 DialogBoxOutput.setText("Rotation angle must be at least over two times the size of the increments") 
                         

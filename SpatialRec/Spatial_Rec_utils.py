@@ -45,6 +45,7 @@ def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
     Arduino.close()
     
     pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
+    Arduino.close()
 
 
 def plotSize(ChannelNum):

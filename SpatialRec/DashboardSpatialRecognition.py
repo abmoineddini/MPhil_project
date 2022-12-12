@@ -87,19 +87,21 @@ def DataCollectionDashboard(Directory):
                     Input('interval-component', 'n_intervals'))   
     def collectData(n):
         Data = IoTConnection.Data_Collection_Sub_IoT(Directory)
-
+        print(Data)
         ExperimentName = Data[0]
         Progress_curr = Data[1]
         progress_curr = int(Progress_curr.split(":")[1])
-
+    
         df_prog = pd.DataFrame({'names' : [' ', 'Current\nProgress'],
                                 'values' :  [100 - progress_curr, progress_curr]})
-
+        print(Data[2:])
         names = [" "]
         values = [100*(len(Data)-2)]
-        for i in Data[2:]:
-            names.append("Progress " + i.split(":")[0] + chr(176))
-            values.append(int(i.split(":")[1]))
+        for i in Data[2:len(Data)-1]:
+            if i != "" or i != " ":
+                print("Data : {}".format(i))
+                names.append("Progress " + i.split(":")[0] + chr(176))
+                values.append(int(i.split(":")[1]))
 
         for i in values[1:]:
             values[0] = values[0] - i
