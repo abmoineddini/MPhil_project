@@ -1,0 +1,16 @@
+09:47:42 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19516	    120	   3184	  22820	   5924	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+
+09:47:43 Build Finished. 0 errors, 0 warnings. (took 414ms)
+

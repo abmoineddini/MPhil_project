@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;f412-gettingstarted/Core/Inc/micros&apos; to &apos;micros.h&apos;" description="Rename resource &apos;micros&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/micros" name="micros.h" stamp="1673362874168" updateReferences="true"/>
+</session>
