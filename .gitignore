@@ -11,3 +11,16 @@ Dashboardbeark.py
 test2.py
 passwords.py
 mqtt_client.py
+**serialCOM.sln
+SerialCommunication/serialCOM/Debug
+SerialCommunication/serialCOM/.vs
+SerialCommunication/serialCOM/serialCOM/Debug
+SerialCommunication/serialCOM/serialCOM/x64
+SerialCommunication/serialCOM/serialCOM/filename.txt
+SerialCommunication/serialCOM/serialCOM/dt-file.txt.txt
+SerialCommunication/serialCOM/serialCOM/serialCOM.vcxproj
+SerialCommunication/serialCOM/serialCOM/serialCOM.vcxproj.filters
+SerialCommunication/serialCOM/serialCOM/serialCOM.vcxproj.user
+SerialCommunication/serialCOM/serialCOM.sln
+SerialCommunication/serialCOM/x64/Debug/filename.txt
+SerialCommunication/serialCOM/x64/Debug/temp.txt 
