@@ -13,16 +13,26 @@ using std::format;
 using std::string;
 
 // application reads from the specified serial port and reports the collected data
-int _tmain(int argc, _TCHAR* argv[])
-{
-	Serial* SP = new Serial("\\\\.\\COM4");    // adjust as needed
+int main(int argc, char* argv[])
+{	
+	cout << "Starting\n";
+	string COMnum = "\\\\.\\";
+//	for (int i = 0; i <= 3; i++) {
+//		COMnum += argv[i];
+//	}
+	COMnum += argv[1];
+	cout << format("Comport is: {}\n", COMnum);
+	unsigned long int t = ((unsigned int)*argv[2]-48)*1000000;
+	cout << format("Data collection period is: {}s\n", t);
+	const char* COMPort = COMnum.c_str();
+	Serial* SP = new Serial(COMPort);    // adjust as needed
 	string input;
 	int i = 0;
 
 	if (SP->IsConnected())
 		printf("We're connected\n");
 
-	ofstream MyFile("filename.txt");
+	ofstream MyFile("temp.txt");
 
 	char incomingData[256] = "";			// don't forget to pre-allocate memory
 	//printf("%s\n",incomingData);
@@ -37,7 +47,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Sleep(1);
 
-	while (duration <= 1000000)
+	while (duration <= t)
 	{
 		readResult = SP->ReadData(incomingData, dataLength);
 		// printf("Bytes read: (0 means no data available) %i\n",readResult);
@@ -52,5 +62,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	MyFile << duration;
 	cout << format("{}, {}\n", counter, counter2);
 	MyFile.close();
+	cout << format("Done!\n");
 	return 0;
 }

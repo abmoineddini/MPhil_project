@@ -1,12 +1,16 @@
 #include "SerialClass.h"
+#include <stdio.h>
 
 Serial::Serial(const char* portName)
 {
     //We're not yet connected
     this->connected = false;
+    wchar_t wtext[20];
+    mbstowcs(wtext, portName, strlen(portName) + 1);
+    LPWSTR ptr = wtext;
 
     //Try to connect to the given port throuh CreateFile
-    this->hSerial = CreateFile(L"\\\\.\\COM4",
+    this->hSerial = CreateFile(ptr,
         GENERIC_READ | GENERIC_WRITE,
         0,
         NULL,
