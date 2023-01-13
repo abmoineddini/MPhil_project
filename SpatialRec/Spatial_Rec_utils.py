@@ -14,8 +14,8 @@ from threading import Timer
 import webbrowser
 
 
-
-def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
+## Data collection using python
+def DataCollect_old(DataCollectionCOM, Channels, Period, SampleName):
     Arduino = serial.Serial(DataCollectionCOM , 2000000, timeout=1)
     time.sleep(5)
     Input = "Time"
@@ -64,3 +64,51 @@ def plotPreviewFigures(CSVFileName, NumChannels):
 
 
 
+import subprocess
+## Data collection using c++ for faster
+def DataCollect(DataCollectionCOM, Channels, Period, SampleName):
+    subprocess.run(["../SerialCommunication/serialCOM/x64/Debug/serialCOM.exe", DataCollectionCOM, Channels, Period])
+    file1 = open('temp.txt', 'r')
+    countlines = 0
+    Channels = 4 
+    while True:
+        countlines += 1
+        line = file1.readline()
+        if not line:
+            break
+        prevline = line
+    file1.close()
+    print("time : {} us".format(prevline))
+    time = int(prevline)
+    t = np.linspace(start=0, stop=time, num=countlines, dtype=int)
+    print(t)
+    file1 = open('temp.txt', 'r')
+
+    Input = "T (s)"
+    for i in range(Channels):
+        ChName = "Ch" + str(i+1)
+        Input = np.append(Input, ChName)
+
+
+    for i in range(0, countlines):
+        line = file1.readline()
+        line = line.split("\n")
+        line = line[0].split(",")
+        try:
+            if len(line) == Channels:
+                data = np.empty(shape=(1, 5))
+                for j in range(Channels):
+                    line[j] = int(line[j], 16)
+                tempArr = np.array(line)
+                data = np.concatenate((t[i], tempArr), axis=None)
+                Input = np.vstack((Input, data))
+        except:
+            print("Invalid Data")
+
+    print(tempArr)
+    print(data)
+    print(Input)
+
+    file1.close()
+    pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
+    os.remove("temp.txt")

@@ -15,17 +15,22 @@ using std::string;
 // application reads from the specified serial port and reports the collected data
 int main(int argc, char* argv[])
 {	
+	// Setting serical COM channels
 	cout << "Starting\n";
 	string COMnum = "\\\\.\\";
-//	for (int i = 0; i <= 3; i++) {
-//		COMnum += argv[i];
-//	}
 	COMnum += argv[1];
 	cout << format("Comport is: {}\n", COMnum);
-	unsigned long int t = ((unsigned int)*argv[2]-48)*1000000;
-	cout << format("Data collection period is: {}s\n", t);
 	const char* COMPort = COMnum.c_str();
 	Serial* SP = new Serial(COMPort);    // adjust as needed
+
+	// Setting Number of Channels
+	const char* ChannelNumber = argv[2];
+	int sendDataLength = 1;
+
+	// Setting test period
+	unsigned long int t = ((unsigned int)*argv[3]-48)*1000000;
+	cout << format("Data collection period is: {}us\n", t);
+
 	string input;
 	int i = 0;
 
@@ -45,19 +50,18 @@ int main(int argc, char* argv[])
 	auto counter = 0;
 	auto counter2 = 0;
 
+	SP->WriteData(ChannelNumber, sendDataLength);
+
 	Sleep(1);
 
 	while (duration <= t)
 	{
 		readResult = SP->ReadData(incomingData, dataLength);
-		// printf("Bytes read: (0 means no data available) %i\n",readResult);
 		incomingData[readResult] = 0;
 		t2 = chrono::steady_clock::now();
 		duration = chrono::duration_cast<chrono::microseconds>(t2 - t1).count();
 		MyFile << incomingData;
 		++counter2;
-		// free(incomingData);
-		
 	}
 	MyFile << duration;
 	cout << format("{}, {}\n", counter, counter2);

@@ -24,3 +24,5 @@ SerialCommunication/serialCOM/serialCOM/serialCOM.vcxproj.user
 SerialCommunication/serialCOM/serialCOM.sln
 SerialCommunication/serialCOM/x64/Debug/filename.txt
 SerialCommunication/serialCOM/x64/Debug/temp.txt 
+temp.txt
+test.csv
