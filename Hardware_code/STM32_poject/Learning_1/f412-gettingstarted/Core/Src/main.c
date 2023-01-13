@@ -46,6 +46,7 @@ DMA_HandleTypeDef hdma_adc1;
 
 UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
+DMA_HandleTypeDef hdma_usart6_tx;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
@@ -82,6 +83,7 @@ int main(void)
 	uint32_t t1;
 	uint32_t t0 = micros();
 	long int dt = 0;
+	uint8_t NoChannel;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -110,20 +112,41 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, value, 4);
   DWT_Init();
+  void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+  {
+    HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
-	  t1 = micros();
-	  dt = ((t1%1000000)-(t0%1000000));
-	  sprintf(buf ,"%0x,%0x,%0x,%0x,%0x\r\n",dt,value[0], value[1], value[2], value[3]);
-//	  sprintf(buf ,"%i,%i,%i,%i,%i\r\n",t1%1000000,value[0], value[1], value[2], value[3]);
+//	  HAL_UART_Receive_DMA(&huart6, (int)NoChannel, 4);
+
+	  //buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+	  switch(NoChannel){
+	  case 1:
+		  buf = (char *) malloc(sizeof(value[0])+8);
+		  sprintf(buf,"%0x\r\n",value[0]);
+		  break;
+	  case 2:
+		  buf = (char *) malloc(sizeof(value[0]+value[1])+8);
+		  sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+		  break;
+	  case 3:
+		  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2])+8);
+		  sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+		  break;
+	  default:
+		  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+		  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+		  break;
+	  }
+//	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+//	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
 	  HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
 	  free(buf);
-	  t0 = t1;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -368,6 +391,9 @@ static void MX_DMA_Init(void)
   /* DMA2_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+  /* DMA2_Stream6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
 
 }
 

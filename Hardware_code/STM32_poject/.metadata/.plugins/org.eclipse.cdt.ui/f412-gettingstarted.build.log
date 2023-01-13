@@ -1,0 +1,70 @@
+09:04:27 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:119:19: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  119 |    buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+      |                   ^~~~~~
+../Core/Src/main.c:119:19: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:124:19: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  124 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                 ~~^                  ~~~~~~~~
+      |                   |                       |
+      |                   unsigned int            uint32_t {aka long unsigned int}
+      |                 %0lx
+../Core/Src/main.c:124:23: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  124 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                     ~~^                        ~~~~~~~~
+      |                       |                             |
+      |                       unsigned int                  uint32_t {aka long unsigned int}
+      |                     %0lx
+../Core/Src/main.c:124:27: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  124 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                         ~~^                              ~~~~~~~~
+      |                           |                                   |
+      |                           unsigned int                        uint32_t {aka long unsigned int}
+      |                         %0lx
+../Core/Src/main.c:124:31: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  124 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                             ~~^                                    ~~~~~~~~
+      |                               |                                         |
+      |                               unsigned int                              uint32_t {aka long unsigned int}
+      |                             %0lx
+../Core/Src/main.c:125:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  125 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:126:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  126 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:126:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:126:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:84:11: warning: variable 'dt' set but not used [-Wunused-but-set-variable]
+   84 |  long int dt = 0;
+      |           ^~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Desktop\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19508	    120	   3184	  22812	   591c	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+
+09:04:28 Build Finished. 0 errors, 10 warnings. (took 1s.266ms)
+
