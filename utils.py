@@ -11,7 +11,7 @@ def COMFinder(self):
         if "Arduino Uno" in p.description:
             StageControllerPort = p.name
         
-        elif "Arduino Mega" in p.description:
+        elif "CH9102" in p.description:
             DataCollectorPort = p.name
         
     print("Stage Contoller port is : {}".format(StageControllerPort))

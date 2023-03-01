@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 
 	SP->WriteData(ChannelNumber, sendDataLength);
 
-	Sleep(1);
+	Sleep(2);
 
 	while (duration <= t)
 	{
@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
 		duration = chrono::duration_cast<chrono::microseconds>(t2 - t1).count();
 		MyFile << incomingData;
 		++counter2;
+	
 	}
 	MyFile << duration;
 	cout << format("{}, {}\n", counter, counter2);

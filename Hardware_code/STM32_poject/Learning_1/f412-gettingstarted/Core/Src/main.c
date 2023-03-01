@@ -111,7 +111,6 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, value, 4);
-  DWT_Init();
   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   {
     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
@@ -123,8 +122,7 @@ int main(void)
   while (1)
   {
 //	  HAL_UART_Receive_DMA(&huart6, (int)NoChannel, 4);
-
-	  //buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+//	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
 	  switch(NoChannel){
 	  case 1:
 		  buf = (char *) malloc(sizeof(value[0])+8);
@@ -144,6 +142,7 @@ int main(void)
 		  break;
 	  }
 //	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+//	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+4);
 //	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
 	  HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
 	  free(buf);

@@ -60,8 +60,8 @@ all: main-build
 main-build: f412-gettingstarted.elf secondary-outputs
 
 # Tool invocations
-f412-gettingstarted.elf f412-gettingstarted.map: $(OBJS) $(USER_OBJS) C:\Users\songg\OneDrive\Desktop\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Desktop\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+f412-gettingstarted.elf f412-gettingstarted.map: $(OBJS) $(USER_OBJS) C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

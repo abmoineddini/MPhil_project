@@ -2666,3 +2666,787 @@ Finished building: default.size.stdout
  
 Finished building: f412-gettingstarted.list
  
+12:22:59 **** Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:148:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:149:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  149 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:149:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'free'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:86:10: warning: unused variable 'NoChannel' [-Wunused-variable]
+   86 |  uint8_t NoChannel;
+      |          ^~~~~~~~~
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+../Core/Src/main.c:148:36: warning: 'buf' is used uninitialized in this function [-Wuninitialized]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                                    ^~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  17100	    120	   3272	  20492	   500c	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:23:52 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:117:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  117 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:130:20: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  130 |     buf = (char *) malloc(sizeof(value[0])+8);
+      |                    ^~~~~~
+../Core/Src/main.c:130:20: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:131:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  131 |     sprintf(buf,"%0x\r\n",value[0]);
+      |                  ~~^      ~~~~~~~~
+      |                    |           |
+      |                    |           uint32_t {aka long unsigned int}
+      |                    unsigned int
+      |                  %0lx
+../Core/Src/main.c:135:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  135 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                  ~~^          ~~~~~~~~
+      |                    |               |
+      |                    unsigned int    uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:135:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  135 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                      ~~^                ~~~~~~~~
+      |                        |                     |
+      |                        unsigned int          uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:139:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  139 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                  ~~^              ~~~~~~~~
+      |                    |                   |
+      |                    unsigned int        uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:139:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  139 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                      ~~^                    ~~~~~~~~
+      |                        |                         |
+      |                        unsigned int              uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:139:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  139 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                          ~~^                          ~~~~~~~~
+      |                            |                               |
+      |                            unsigned int                    uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:143:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  143 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                  ~~^                  ~~~~~~~~
+      |                    |                       |
+      |                    unsigned int            uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:143:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  143 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                      ~~^                        ~~~~~~~~
+      |                        |                             |
+      |                        unsigned int                  uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:143:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  143 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                          ~~^                              ~~~~~~~~
+      |                            |                                   |
+      |                            unsigned int                        uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:143:32: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  143 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                              ~~^                                    ~~~~~~~~
+      |                                |                                         |
+      |                                unsigned int                              uint32_t {aka long unsigned int}
+      |                              %0lx
+../Core/Src/main.c:148:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:149:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  149 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:149:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:149:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:115:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  115 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19748	    120	   3280	  23148	   5a6c	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:25:48 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:117:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  117 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:148:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:149:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  149 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:149:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'free'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:115:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  115 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:148:36: warning: 'buf' is used uninitialized in this function [-Wuninitialized]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                                    ^~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  17104	    120	   3272	  20496	   5010	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:26:48 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:117:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  117 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:19: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  147 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                 ~~^                  ~~~~~~~~
+      |                   |                       |
+      |                   unsigned int            uint32_t {aka long unsigned int}
+      |                 %0lx
+../Core/Src/main.c:147:23: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  147 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                     ~~^                        ~~~~~~~~
+      |                       |                             |
+      |                       unsigned int                  uint32_t {aka long unsigned int}
+      |                     %0lx
+../Core/Src/main.c:147:27: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  147 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                         ~~^                              ~~~~~~~~
+      |                           |                                   |
+      |                           unsigned int                        uint32_t {aka long unsigned int}
+      |                         %0lx
+../Core/Src/main.c:147:31: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  147 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                             ~~^                                    ~~~~~~~~
+      |                               |                                         |
+      |                               unsigned int                              uint32_t {aka long unsigned int}
+      |                             %0lx
+../Core/Src/main.c:148:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  148 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:149:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  149 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:149:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'free'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:115:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  115 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:4: warning: 'buf' is used uninitialized in this function [-Wuninitialized]
+  147 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19572	    120	   3280	  22972	   59bc	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:28:56 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:116:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  116 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:145:19: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  145 |    buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+      |                   ^~~~~~
+../Core/Src/main.c:145:19: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:146:19: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                 ~~^                  ~~~~~~~~
+      |                   |                       |
+      |                   unsigned int            uint32_t {aka long unsigned int}
+      |                 %0lx
+../Core/Src/main.c:146:23: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                     ~~^                        ~~~~~~~~
+      |                       |                             |
+      |                       unsigned int                  uint32_t {aka long unsigned int}
+      |                     %0lx
+../Core/Src/main.c:146:27: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                         ~~^                              ~~~~~~~~
+      |                           |                                   |
+      |                           unsigned int                        uint32_t {aka long unsigned int}
+      |                         %0lx
+../Core/Src/main.c:146:31: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                             ~~^                                    ~~~~~~~~
+      |                               |                                         |
+      |                               unsigned int                              uint32_t {aka long unsigned int}
+      |                             %0lx
+../Core/Src/main.c:147:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  147 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:148:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  148 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:148:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:148:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:114:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  114 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19548	    120	   3280	  22948	   59a4	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:30:22 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:116:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  116 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:145:19: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  145 |    buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+4);
+      |                   ^~~~~~
+../Core/Src/main.c:145:19: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:146:19: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                 ~~^                  ~~~~~~~~
+      |                   |                       |
+      |                   unsigned int            uint32_t {aka long unsigned int}
+      |                 %0lx
+../Core/Src/main.c:146:23: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                     ~~^                        ~~~~~~~~
+      |                       |                             |
+      |                       unsigned int                  uint32_t {aka long unsigned int}
+      |                     %0lx
+../Core/Src/main.c:146:27: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                         ~~^                              ~~~~~~~~
+      |                           |                                   |
+      |                           unsigned int                        uint32_t {aka long unsigned int}
+      |                         %0lx
+../Core/Src/main.c:146:31: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  146 |    sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                             ~~^                                    ~~~~~~~~
+      |                               |                                         |
+      |                               unsigned int                              uint32_t {aka long unsigned int}
+      |                             %0lx
+../Core/Src/main.c:147:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  147 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:148:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  148 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:148:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:148:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:114:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  114 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19548	    120	   3280	  22948	   59a4	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:31:35 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:116:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  116 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:124:34: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  124 |    HAL_UART_Receive_DMA(&huart6, (int)NoChannel, 4);
+      |                                  ^~~~~~~~~~~~~~
+      |                                  |
+      |                                  int
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c:125:19: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  125 |    buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+      |                   ^~~~~~
+../Core/Src/main.c:125:19: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:129:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  129 |     sprintf(buf,"%0x\r\n",value[0]);
+      |                  ~~^      ~~~~~~~~
+      |                    |           |
+      |                    |           uint32_t {aka long unsigned int}
+      |                    unsigned int
+      |                  %0lx
+../Core/Src/main.c:133:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  133 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                  ~~^          ~~~~~~~~
+      |                    |               |
+      |                    unsigned int    uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:133:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  133 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                      ~~^                ~~~~~~~~
+      |                        |                     |
+      |                        unsigned int          uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:137:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                  ~~^              ~~~~~~~~
+      |                    |                   |
+      |                    unsigned int        uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:137:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                      ~~^                    ~~~~~~~~
+      |                        |                         |
+      |                        unsigned int              uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:137:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                          ~~^                          ~~~~~~~~
+      |                            |                               |
+      |                            unsigned int                    uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:141:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                  ~~^                  ~~~~~~~~
+      |                    |                       |
+      |                    unsigned int            uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:141:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                      ~~^                        ~~~~~~~~
+      |                        |                             |
+      |                        unsigned int                  uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:141:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                          ~~^                              ~~~~~~~~
+      |                            |                                   |
+      |                            unsigned int                        uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:141:32: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                              ~~^                                    ~~~~~~~~
+      |                                |                                         |
+      |                                unsigned int                              uint32_t {aka long unsigned int}
+      |                              %0lx
+../Core/Src/main.c:147:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  147 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:148:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  148 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:148:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:148:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:114:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  114 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  20988	    120	   3280	  24388	   5f44	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 
+12:31:49 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-size   f412-gettingstarted.elf 
+   text	   data	    bss	    dec	    hex	filename
+  20988	    120	   3280	  24388	   5f44	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+12:35:31 **** Incremental Build of configuration Debug for project f412-gettingstarted ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F412Zx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:116:35: warning: passing argument 2 of 'HAL_UART_Receive_DMA' makes pointer from integer without a cast [-Wint-conversion]
+  116 |     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
+      |                                   ^~~~~~~~~
+      |                                   |
+      |                                   uint8_t {aka unsigned char}
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:128:20: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  128 |     buf = (char *) malloc(sizeof(value[0])+8);
+      |                    ^~~~~~
+../Core/Src/main.c:128:20: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/main.c:27:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   26 | #include <micros.h>
+  +++ |+#include <stdlib.h>
+   27 | /* USER CODE END Includes */
+../Core/Src/main.c:129:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  129 |     sprintf(buf,"%0x\r\n",value[0]);
+      |                  ~~^      ~~~~~~~~
+      |                    |           |
+      |                    |           uint32_t {aka long unsigned int}
+      |                    unsigned int
+      |                  %0lx
+../Core/Src/main.c:133:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  133 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                  ~~^          ~~~~~~~~
+      |                    |               |
+      |                    unsigned int    uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:133:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  133 |     sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
+      |                      ~~^                ~~~~~~~~
+      |                        |                     |
+      |                        unsigned int          uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:137:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                  ~~^              ~~~~~~~~
+      |                    |                   |
+      |                    unsigned int        uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:137:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                      ~~^                    ~~~~~~~~
+      |                        |                         |
+      |                        unsigned int              uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:137:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  137 |     sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
+      |                          ~~^                          ~~~~~~~~
+      |                            |                               |
+      |                            unsigned int                    uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:141:20: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                  ~~^                  ~~~~~~~~
+      |                    |                       |
+      |                    unsigned int            uint32_t {aka long unsigned int}
+      |                  %0lx
+../Core/Src/main.c:141:24: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                      ~~^                        ~~~~~~~~
+      |                        |                             |
+      |                        unsigned int                  uint32_t {aka long unsigned int}
+      |                      %0lx
+../Core/Src/main.c:141:28: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                          ~~^                              ~~~~~~~~
+      |                            |                                   |
+      |                            unsigned int                        uint32_t {aka long unsigned int}
+      |                          %0lx
+../Core/Src/main.c:141:32: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  141 |     sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+      |                              ~~^                                    ~~~~~~~~
+      |                                |                                         |
+      |                                unsigned int                              uint32_t {aka long unsigned int}
+      |                              %0lx
+../Core/Src/main.c:147:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  147 |    HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
+      |                               ^~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:148:4: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  148 |    free(buf);
+      |    ^~~~
+../Core/Src/main.c:148:4: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/main.c:148:4: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/main.c:85:11: warning: unused variable 'dt' [-Wunused-variable]
+   85 |  long int dt = 0;
+      |           ^~
+../Core/Src/main.c:84:11: warning: unused variable 't0' [-Wunused-variable]
+   84 |  uint32_t t0 = micros();
+      |           ^~
+../Core/Src/main.c:83:11: warning: unused variable 't1' [-Wunused-variable]
+   83 |  uint32_t t1;
+      |           ^~
+At top level:
+../Core/Src/main.c:114:8: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
+  114 |   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "f412-gettingstarted.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\STM32F412ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="f412-gettingstarted.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: f412-gettingstarted.elf
+ 
+arm-none-eabi-size   f412-gettingstarted.elf 
+arm-none-eabi-objdump -h -S  f412-gettingstarted.elf  > "f412-gettingstarted.list"
+   text	   data	    bss	    dec	    hex	filename
+  19696	    120	   3280	  23096	   5a38	f412-gettingstarted.elf
+Finished building: default.size.stdout
+ 
+Finished building: f412-gettingstarted.list
+ 

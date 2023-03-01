@@ -1,0 +1,46 @@
+!SESSION 2023-01-30 12:05:09.001 -----------------------------------------------
+eclipse.buildId=Version 1.11.0
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-01-30 12:05:31.826
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-01-30 12:05:31.872
+!MESSAGE Log4j initialized with config file C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-01-30 12:05:33.353
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2023-01-30 12:07:18.009 -----------------------------------------------
+eclipse.buildId=Version 1.11.0
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-01-30 12:07:29.055
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-01-30 12:07:29.101
+!MESSAGE Log4j initialized with config file C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-01-30 12:07:30.621
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2023-01-30 12:08:35.896 -----------------------------------------------
+eclipse.buildId=Version 1.11.0
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Framework arguments:  C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-01-30 12:08:42.468
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-01-30 12:08:42.515
+!MESSAGE Log4j initialized with config file C:\Users\songg\OneDrive\Documents\MPhil_project\Hardware_code\STM32_poject\Learning_1\f412-gettingstarted\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-01-30 12:08:43.988
+!MESSAGE Started RMI Server, listening on port 41337
