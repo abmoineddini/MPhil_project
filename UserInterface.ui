@@ -51,7 +51,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpatialRecTab">
        <attribute name="title">
@@ -555,6 +555,42 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Data Processing</string>
        </attribute>
+       <widget class="QComboBox" name="comboBox">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>80</y>
+          <width>641</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Please select test</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="StageCOMLabel_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>311</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Stage COM Port:</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="TrainingSpatialRecTab">
        <attribute name="title">

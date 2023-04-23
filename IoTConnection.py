@@ -2,9 +2,11 @@ from Adafruit_IO import *
 from datetime import date
 
 def Data_Collection_Pub_IoT(TestName, Value):
-    ADAFRUIT_IO_USERNAME = "AutomateUCL"
-    ADAFRUIT_IO_KEY = "aio_NDNb02B6OZ3wy6t3G4CXNQW8l9xK"
-
+    try:
+        ADAFRUIT_IO_USERNAME = "AutomateUCL"
+        ADAFRUIT_IO_KEY = "aio_ECQs98WDgU1MVcD9pP3EXOSifAck"
+    except:
+        print("Adafruit key expired")
     aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
     group = aio.groups("spatialdatacollection")
@@ -32,8 +34,11 @@ def Data_Collection_Pub_IoT(TestName, Value):
 
 
 def Data_Collection_Sub_IoT(TestName):
-    ADAFRUIT_IO_USERNAME = "AutomateUCL"
-    ADAFRUIT_IO_KEY = "aio_NDNb02B6OZ3wy6t3G4CXNQW8l9xK"
+    try:
+        ADAFRUIT_IO_USERNAME = "AutomateUCL"
+        ADAFRUIT_IO_KEY = "aio_ECQs98WDgU1MVcD9pP3EXOSifAck"
+    except:
+        print("Adafruit key expired")
 
     aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
@@ -59,4 +64,4 @@ def Data_Collection_Sub_IoT(TestName):
 
 # val = "30:10 30:10 0:100 60:0 90:0 120:0"
 
-# Data_Collection_Pub(Value=val, TestName="Speech-30Deg-360-Test")
+# Data_Collection_Pub_IoT(Value=val, TestName="Speech-30Deg-360-Test")

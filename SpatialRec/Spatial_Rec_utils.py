@@ -19,6 +19,7 @@ def DataCollect_old(DataCollectionCOM, Channels, Period, SampleName):
     Arduino = serial.Serial(DataCollectionCOM , 2000000, timeout=1)
     time.sleep(5)
     Input = "Time"
+    print("Time")
     for i in range(Channels):
         ChName = "Ch" + str(i+1)
         Input = np.append(Input, ChName)
@@ -28,18 +29,18 @@ def DataCollect_old(DataCollectionCOM, Channels, Period, SampleName):
     Period = Period*(10**9)
     while difTime <= Period:
         line = Arduino.readline()
+        # print(line)
         if line != (''):
-            
             try:
                 line = line.decode()
-            except:
-                continue
-            else:
                 line = line.replace("\r\n", '')
-                line = line.split(" ")
+                line = line.split(",")
                 if all(item.isdigit() for item in line) and len(line) == Channels:
                     difTime = time.time_ns() - stime
                     Input = np.vstack((Input, np.append(str(difTime), line)))
+                    print(line)
+            except:
+                continue
     
     pd.DataFrame(np.delete(Input, 0, 0)).to_csv(SampleName, header=Input[0])
     Arduino.close()

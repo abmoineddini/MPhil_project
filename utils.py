@@ -11,7 +11,7 @@ def COMFinder(self):
         if "Arduino Uno" in p.description:
             StageControllerPort = p.name
         
-        elif "CH9102" in p.description:
+        elif "Arduino Mega" in p.description:
             DataCollectorPort = p.name
         
     print("Stage Contoller port is : {}".format(StageControllerPort))
@@ -26,28 +26,29 @@ def COMFinder(self):
 
 ## Initializing arduino
 def Inititialise(comPort):
-    arduino = serial.Serial(comPort, 9600, timeout=1)
+    arduino = serial.Serial(comPort, 115200, timeout=1)
     line = arduino.readline()
     print(line)
-    try:
-        string = line.decode()
-    except:
-        print("ignored")
-    else:
-        numS = string.replace("\r\n", '')
+    if line != "":
+        try:
+            string = line.decode()
+        except:
+            print("ignored")
+        else:
+            numS = string.replace("\r\n", '')
 
-        while numS != "ready":
-            line = arduino.readline()
-            line = line.decode()
-            numS = line.replace("\r\n", '')
-        while line != "Starting":
-            arduino.write(b"rdy")
-            line = arduino.readline()
-            line = line.decode()
-            line = line.replace("\r\n", '')
+            while numS != "ready":
+                line = arduino.readline()
+                line = line.decode()
+                numS = line.replace("\r\n", '')
+            while line != "Starting":
+                arduino.write(b"rdy")
+                line = arduino.readline()
+                line = line.decode()
+                line = line.replace("\r\n", '')
 
-        print("Starting")
-    return 0, arduino
+            print("Starting")
+        return 0, arduino
 
 ## Homming Sequence
 def Calibrate(comPort, arduino):
@@ -55,7 +56,7 @@ def Calibrate(comPort, arduino):
     # The motor controller is setup so that if you 
     # connect to arduino it will run the calibration sequence
     ###
-    arduino = serial.Serial(comPort, 9600, timeout=1)
+    arduino = serial.Serial(comPort, 115200, timeout=1)
     line = arduino.readline()
     print(line)
     try:

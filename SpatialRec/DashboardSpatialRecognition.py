@@ -18,7 +18,7 @@ import paho.mqtt.client as paho
 from paho import mqtt
 import argparse
 import sys
-sys.path.append('../MPhil_Softwares')
+sys.path.append('../MPhil_project')
 import IoTConnection
 
 

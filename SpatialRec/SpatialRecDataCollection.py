@@ -20,23 +20,28 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
         Increments = np.linspace(0, RotAngle, int(RotAngle/Increment)+1)
     else:  
         Increments = np.linspace(360-RotAngle, 0, int(RotAngle/Increment)+1)
+
+    # Increment = Increment.astype(int)
     print(Increments)
     progressMatrix = ""
+
     for i in Increments:
         progressMatrix += str(i) + ":" + "0 "
-    
+
     print(progressMatrix)
     CompleteprogressMatrix = "0:0 " + progressMatrix
+    print("sending {}".format(CompleteprogressMatrix))
     IoTConnection.Data_Collection_Pub_IoT(ExperimentDIR, CompleteprogressMatrix)
 
     # Start the web base dashboard data monitoring
     dashStartCMD = "python SpatialRec/DashboardSpatialRecognition.py -d " + ExperimentDIR +"/RawData"
     DashBoardStart = subprocess.Popen(["start", "cmd", "/k", dashStartCMD], shell = True)
-    
+
     totalSampleProcessed = 0
     InitalInspect = True
     for Angle in Increments:
         # Setting Angle
+        Angle = int(Angle)
         if Angle != 0:
             currAngle = utils.AngleSet(Angle, StageController, currAngle)
             time.sleep(1)
@@ -55,8 +60,12 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
                 else:
                     NameTest = False
 
+            print("Test name is : {}".format(CSVName))
+
             SampleName = os.path.join(RawDataDIR, CSVName)
-            Spatial_Rec_utils.DataCollect(DataCollectionCOM, NumChannels, Period, SampleName)
+            Spatial_Rec_utils.DataCollect_old(DataCollectionCOM, NumChannels, Period, SampleName)
+
+            print("Sample name is {}".format(SampleName))
             
             for i in range(len(progressMatrix.split(" "))):
                 if progressMatrix.split(" ")[i].split(":")[0] == str(Angle):
@@ -70,12 +79,14 @@ def DataCollection(DataCollectionCOM, StageControllerCOM, StageController, currA
 
             except:
                 print("Connection busy will update in next run")
+            
 
             totalSampleProcessed += 1
 
     if (totalSampleProcessed % (NumSamples*2)) == 0:
         totalSampleProcessed = 0
         currAngle, StageController = utils.Calibrate(StageControllerCOM, StageController)
+
 
 
 
@@ -135,6 +146,8 @@ def StartSpatialRecogExperiment(self, DialogBoxOutput):
                                                 self.arduino, 0, self.NumberOfSamples, self.NumberOfChannels, 
                                                 self.Period, self.Increment, self.RotAngle, self.Direction, 
                                                 ExperimentName, ExperimentDIR)
+                                    
+                                    
                                 except:
                                     print("Error Starting the test!")
                             else:

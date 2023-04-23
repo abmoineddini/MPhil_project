@@ -51,7 +51,9 @@ DMA_HandleTypeDef hdma_usart6_tx;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
-
+volatile uint32_t value[4];
+volatile int adcConversionComplete = 0;
+char* buf;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,11 +80,10 @@ static void MX_USART6_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint32_t value[4];
-	char* buf;
-	uint32_t t1;
-	uint32_t t0 = micros();
-	long int dt = 0;
+
+//	uint32_t t1;
+//	uint32_t t0 = micros();
+//	long int dt = 0;
 	uint8_t NoChannel;
   /* USER CODE END 1 */
 
@@ -110,7 +111,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADC_Start_DMA(&hadc1, value, 4);
+
   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   {
     HAL_UART_Receive_DMA(&huart6, NoChannel, 4);
@@ -121,29 +122,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_ADC_Start_DMA(&hadc1, (uint32_t*) value, 4);
 //	  HAL_UART_Receive_DMA(&huart6, (int)NoChannel, 4);
-//	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
-	  switch(NoChannel){
-	  case 1:
-		  buf = (char *) malloc(sizeof(value[0])+8);
-		  sprintf(buf,"%0x\r\n",value[0]);
-		  break;
-	  case 2:
-		  buf = (char *) malloc(sizeof(value[0]+value[1])+8);
-		  sprintf(buf,"%0x,%0x\r\n",value[0], value[1]);
-		  break;
-	  case 3:
-		  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2])+8);
-		  sprintf(buf,"%0x,%0x,%0x\r\n",value[0], value[1], value[2]);
-		  break;
-	  default:
-		  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
-		  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
-		  break;
+	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+8);
+	  while (adcConversionComplete == 0)
+	  {
+
 	  }
-//	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
-//	  buf = (char *) malloc(sizeof(value[0]+value[1]+value[2]+value[3])+4);
-//	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
+	  adcConversionComplete = 0;
+	  sprintf(buf,"%0x,%0x,%0x,%0x\r\n",value[0], value[1], value[2], value[3]);
 	  HAL_UART_Transmit(&huart6, buf, strlen((char*)buf), HAL_MAX_DELAY);
 	  free(buf);
     /* USER CODE END WHILE */
@@ -448,7 +435,10 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+	adcConversionComplete = 1;
+}
 /* USER CODE END 4 */
 
 /**
