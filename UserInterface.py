@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from SpatialRec import  SpatialRecDataCollection
+from SpatialRec import  SpatialRecDataCollection, Spatial_preprocessing, SectionCutting
 import utils
 import os
 import datetime
@@ -37,11 +37,10 @@ class Ui_SSRRecognition(object):
                 except:
                     pass
     def refreshList(self):
+        self.Dropdown_spatial_prepro.clear()
         data_directory_spatial = "TrainingData/Spatial_Recognition"
         self.spatial_test_list = os.listdir(data_directory_spatial)
-        print(self.spatial_test_list)
-        print(len(self.spatial_test_list))
-        print(type(len(self.spatial_test_list)))
+        self.Dropdown_spatial_prepro.insertItems(len(self.spatial_test_list), self.spatial_test_list)
 
     def setupUi(self, SSRRecognition):
         ## Setting up global Variables for Speech Recognition Data Collection
@@ -238,7 +237,7 @@ class Ui_SSRRecognition(object):
         self.Dropdown_spatial_prepro.setObjectName("Dropdown_spatial_prepro")
         self.Dropdown_spatial_prepro.addItem("")
         self.Dropdown_spatial_prepro.insertItems(len(self.spatial_test_list), self.spatial_test_list)
-        self.start_prepriocessing_but_spatial = QtWidgets.QPushButton(self.preprocessing_spatial_combobox)
+        self.start_prepriocessing_but_spatial = QtWidgets.QPushButton(self.preprocessing_spatial_combobox,clicked = lambda: Spatial_preprocessing.Start_spatial_preprocessing(self, self.Dropdown_spatial_prepro.currentText()))
         self.start_prepriocessing_but_spatial.setGeometry(QtCore.QRect(760, 170, 271, 51))
         self.start_prepriocessing_but_spatial.setObjectName("start_prepriocessing_but_spatial")
         self.refresh_prepriocessing_but_spatial = QtWidgets.QPushButton(self.preprocessing_spatial_combobox, clicked = lambda : self.refreshList())
