@@ -11,7 +11,6 @@ from scipy.fft import fft, fftfreq
 import random
 
 
-
 def SepWithSTFTAuto(data, time, Fs):
     inst = 100
     normV1 = data[0:len(time), 0]
@@ -220,17 +219,28 @@ def ProcessConcatAuto(Im, fileName):
 
 def Start_spatial_preprocessing(self, DataSetName):
 
+
     path_dir = "TrainingData/Spatial_Recognition/"+DataSetName
-    FolderSTFTTraining = path_dir+"/DataBase/training/"
-    FolderSTFTTesting = path_dir+"/DataBase/Testing/"
-    FolderValTesting = path_dir+"/DataBase/Validation/"
+
     Raw_data_dir = path_dir+"/RawData/"
 
-    TrainingDirectory = [f for f in listdir(FolderSTFTTraining)]
-    TestDirectory = [f for f in listdir(FolderSTFTTesting)]
-    ValidationDirectory = [f for f in listdir(FolderValTesting)]
 
     for dataFileName in os.listdir(Raw_data_dir):
+        FolderSTFTTraining = path_dir+"/DataBase/training/" + str(dataFileName.split("-")[0]) 
+        FolderSTFTTesting = path_dir+"/DataBase/Testing/" + str(dataFileName.split("-")[0])
+        FolderValTesting = path_dir+"/DataBase/Validation/" + str(dataFileName.split("-")[0])
+
+        if isdir(FolderSTFTTraining):
+            print("Folders Already Excits!")
+        else:
+            os.mkdir(FolderSTFTTraining)
+            os.mkdir(FolderSTFTTesting)
+            os.mkdir(FolderValTesting) 
+        
+        TrainingDirectory = [f for f in listdir(FolderSTFTTraining)]
+        TestDirectory = [f for f in listdir(FolderSTFTTesting)]
+        ValidationDirectory = [f for f in listdir(FolderValTesting)]
+        
         countTrain = int(len(TrainingDirectory))
         countTest = int(len(TestDirectory))
         countVal = int(len(ValidationDirectory))
