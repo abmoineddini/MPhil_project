@@ -35,7 +35,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="SpatialRecognitionTab">
      <attribute name="title">
@@ -51,7 +51,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpatialRecTab">
        <attribute name="title">
@@ -727,7 +727,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="DataCollectionSpeechRecTab">
        <attribute name="title">
@@ -753,29 +753,307 @@ p, li { white-space: pre-wrap; }
          <enum>Qt::LeftToRight</enum>
         </property>
         <property name="text">
-         <string>Speech Recognition Test Data Collection</string>
+         <string>Speech Recognition Test</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="StartSpeechRecogExperimentBut">
+       <widget class="QGroupBox" name="preprocessing_speech_combobox_2">
         <property name="geometry">
          <rect>
-          <x>840</x>
-          <y>690</y>
-          <width>251</width>
-          <height>41</height>
+          <x>20</x>
+          <y>270</y>
+          <width>1061</width>
+          <height>221</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
+        <property name="title">
+         <string>Preprocessing</string>
         </property>
-        <property name="text">
-         <string>Start Experiment</string>
+        <widget class="QLabel" name="preprocessing_label_speech_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>311</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Please select the desire test</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="Dropdown_speech_prepro_2">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>90</y>
+           <width>981</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Please select test</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="start_preprocessing_but_speech">
+         <property name="geometry">
+          <rect>
+           <x>760</x>
+           <y>160</y>
+           <width>271</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Start Preprocessing</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="refresh_preprocessing_but_speech">
+         <property name="geometry">
+          <rect>
+           <x>670</x>
+           <y>160</y>
+           <width>91</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Refresh list</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="ML_speech_combobox_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>500</y>
+          <width>1061</width>
+          <height>221</height>
+         </rect>
         </property>
+        <property name="title">
+         <string>Training and Testing</string>
+        </property>
+        <widget class="QLabel" name="ML_label_speech_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>311</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Please select the desire test</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="Dropdown_speech_ML_2">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>90</y>
+           <width>981</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Please select test</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="start_ML_but_speech">
+         <property name="geometry">
+          <rect>
+           <x>760</x>
+           <y>160</y>
+           <width>271</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Start Preprocessing</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="refresh_ML_but_speech">
+         <property name="geometry">
+          <rect>
+           <x>670</x>
+           <y>160</y>
+           <width>91</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Refresh list</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="preprocessing_speech_combobox_3">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>1061</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Data Collection</string>
+        </property>
+        <widget class="QLabel" name="samples_label_speech">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>90</y>
+           <width>221</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Number of Sample per class:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="StartSpeechRecogExperimentBut">
+         <property name="geometry">
+          <rect>
+           <x>780</x>
+           <y>170</y>
+           <width>251</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Start Experiment</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="SampleSizeInput_speech">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>90</y>
+           <width>113</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="DCCOMLabel_speech">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>40</y>
+           <width>311</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Data Collector COM Port:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="ConnectBut_speech">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>40</y>
+           <width>91</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Connect</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="DCCOMIndecatorLabel_2">
+         <property name="geometry">
+          <rect>
+           <x>270</x>
+           <y>40</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>----</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="ChannelNumber_speech">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>150</y>
+           <width>113</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="channel_num_label_speech">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>150</y>
+           <width>221</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Number of Channels:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="DataProcessingSpeechRecTab">
@@ -833,7 +1111,7 @@ p, li { white-space: pre-wrap; }
          <enum>Qt::LeftToRight</enum>
         </property>
         <property name="text">
-         <string>Speech Recognition Training and Testing</string>
+         <string>Speech Recognition</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

@@ -24,6 +24,21 @@ def COMFinder(self):
 
     return StageControllerPort, DataCollectorPort
 
+def COMFinder_speech(self):
+    ports = list(serial.tools.list_ports.comports())
+    DataCollectorPort = ''
+    for p in ports:
+        if "Arduino Mega" in p.description:
+            DataCollectorPort = p.name
+        
+    print("Data Collector port is : {}".format(DataCollectorPort))
+    try:
+        self.DCCOMIndecatorLabel.setText(DataCollectorPort)
+    except Exception as e:
+        print(e)
+
+    return DataCollectorPort
+
 ## Initializing arduino
 def Inititialise(comPort):
     arduino = serial.Serial(comPort, 115200, timeout=1)
@@ -114,3 +129,6 @@ def AngleSet(angle, arduino, currAngle):
 #     else:
 #         print("Window Disables")
 #         self.centralwidget.setEnabled(False)
+
+# A = COMFinder_speech(2)
+# print(A)

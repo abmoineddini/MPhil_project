@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from SpatialRec import  SpatialRecDataCollection, Spatial_preprocessing, Machine_Learning
+from SpeechRec import  SpeechRecDataCollection, Speech_preprocessing, Speech_Machine_Learning
 import utils
 import os
 import datetime
@@ -36,6 +37,7 @@ class Ui_SSRRecognition(object):
                     self.StageCOMIndecatorLabel.setText(self.StageControllerPort)
                 except:
                     pass
+    
     def refreshList(self):
         self.Dropdown_spatial_prepro.clear()
         data_directory_spatial = "TrainingData/Spatial_Recognition"
@@ -47,6 +49,31 @@ class Ui_SSRRecognition(object):
         data_directory_spatial = "TrainingData/Spatial_Recognition"
         self.spatial_test_list = os.listdir(data_directory_spatial)
         self.Dropdown_spatial_ML.insertItems(len(self.spatial_test_list), self.spatial_test_list)
+
+
+    #Speech recognition Functions:
+    def FindCOM_speech(self):
+        self.DataCollectorPort_speech = utils.COMFinder_speech(self)
+        if  self.DataCollectorPort_speech != '':
+            self.DCCOMIndecatorLabel_speech.setText(self.DataCollectorPort_speech)
+
+        else:
+            if self.DataCollectorPort_speech == '':
+                self.DialogboxOutput.setText("Data Collector not found")
+
+
+    def refreshList_speech(self):
+        self.Dropdown_speech_prepro.clear()
+        data_directory_spatial = "TrainingData/Speech_Recognition"
+        self.speech_test_list = os.listdir(data_directory_spatial)
+        self.Dropdown_speech_prepro.insertItems(len(self.speech_test_list), self.speech_test_list)
+
+
+    def refreshList_ML_speech(self):
+        self.Dropdown_speech_ML.clear()
+        data_directory_spatial = "TrainingData/Speech_Recognition"
+        self.speech_test_list = os.listdir(data_directory_spatial)
+        self.Dropdown_speech_ML.insertItems(len(self.speech_test_list), self.speech_test_list)
 
     def setupUi(self, SSRRecognition):
         ## Setting up global Variables for Speech Recognition Data Collection
@@ -69,9 +96,11 @@ class Ui_SSRRecognition(object):
         #Spatial Recognition Data Collection Tab
         self.StageControllerPort = "" 
         self.DataCollectorPort = ""
+        self.DataCollectorPort_speech = ""
         self.currAngle = "NaN"
         self.arduino = "NaN"
         self.spatial_test_list = os.listdir("TrainingData/Spatial_Recognition")
+        self.speech_test_list = os.listdir("TrainingData/Speech_Recognition")
         self.StageCalibStat = False
         self.DataCollectionSpatialRecTab = QtWidgets.QWidget()
         self.DataCollectionSpatialRecTab.setObjectName("DataCollectionSpatialRecTab")
@@ -222,8 +251,6 @@ class Ui_SSRRecognition(object):
         self.ConnectBut.setObjectName("ConnectBut")
         self.SubTabSpatialRecognition.addTab(self.DataCollectionSpatialRecTab, "")
 
-
-
         ## Spatial recognition Processing Tab
         ### Start preprocessing
         self.DataProcessingSpatialRecTab = QtWidgets.QWidget()
@@ -292,54 +319,150 @@ class Ui_SSRRecognition(object):
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
+
+
+        self.SpeechRecogntionTab = QtWidgets.QWidget()
+        self.SpeechRecogntionTab.setObjectName("SpeechRecogntionTab")
+        self.SubTabSpeechRecognition = QtWidgets.QTabWidget(self.SpeechRecogntionTab)
+        self.SubTabSpeechRecognition.setGeometry(QtCore.QRect(0, 0, 1111, 771))
+        self.SubTabSpeechRecognition.setObjectName("SubTabSpeechRecognition")
+        self.DataCollectionSpeechRecTab = QtWidgets.QWidget()
+        self.DataCollectionSpeechRecTab.setObjectName("DataCollectionSpeechRecTab")
+        self.SpeechRecDataCollectionTitle = QtWidgets.QLabel(self.DataCollectionSpeechRecTab)
+        self.SpeechRecDataCollectionTitle.setGeometry(QtCore.QRect(250, -10, 561, 61))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+
+
         self.SpeechRecDataCollectionTitle.setFont(font)
         self.SpeechRecDataCollectionTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.SpeechRecDataCollectionTitle.setAlignment(QtCore.Qt.AlignCenter)
         self.SpeechRecDataCollectionTitle.setObjectName("SpeechRecDataCollectionTitle")
-        self.StartSpeechRecogExperimentBut = QtWidgets.QPushButton(self.DataCollectionSpeechRecTab)
-        self.StartSpeechRecogExperimentBut.setGeometry(QtCore.QRect(840, 690, 251, 41))
+
+        ## Prepeocessing
+        self.preprocessing_speech_combobox = QtWidgets.QGroupBox(self.DataCollectionSpeechRecTab)
+        self.preprocessing_speech_combobox.setGeometry(QtCore.QRect(20, 270, 1061, 221))
+        self.preprocessing_speech_combobox.setObjectName("preprocessing_speech_combobox")
+        self.preprocessing_label_speech = QtWidgets.QLabel(self.preprocessing_speech_combobox)
+        self.preprocessing_label_speech.setGeometry(QtCore.QRect(20, 30, 311, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.preprocessing_label_speech.setFont(font)
+        self.preprocessing_label_speech.setTextFormat(QtCore.Qt.AutoText)
+        self.preprocessing_label_speech.setObjectName("preprocessing_label_speech")
+        self.Dropdown_speech_prepro = QtWidgets.QComboBox(self.preprocessing_speech_combobox)
+        self.Dropdown_speech_prepro.setGeometry(QtCore.QRect(60, 90, 981, 51))
+        self.Dropdown_speech_prepro.setObjectName("Dropdown_speech_prepro")
+        self.Dropdown_speech_prepro.addItem("")
+        self.start_preprocessing_but_speech = QtWidgets.QPushButton(self.preprocessing_speech_combobox)
+        self.start_preprocessing_but_speech.setGeometry(QtCore.QRect(760, 160, 271, 51))
+        self.start_preprocessing_but_speech.setObjectName("start_preprocessing_but_speech")
+        self.refresh_preprocessing_but_speech = QtWidgets.QPushButton(self.preprocessing_speech_combobox, clicked = lambda : self.refreshList_speech())
+        self.refresh_preprocessing_but_speech.setGeometry(QtCore.QRect(670, 160, 91, 51))
+        self.refresh_preprocessing_but_speech.setObjectName("refresh_preprocessing_but_speech")
+
+        ## Training and Testing 
+        self.ML_speech_combobox = QtWidgets.QGroupBox(self.DataCollectionSpeechRecTab)
+        self.ML_speech_combobox.setGeometry(QtCore.QRect(20, 500, 1061, 221))
+        self.ML_speech_combobox.setObjectName("ML_speech_combobox")
+        self.ML_label_speech = QtWidgets.QLabel(self.ML_speech_combobox)
+        self.ML_label_speech.setGeometry(QtCore.QRect(20, 30, 311, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ML_label_speech.setFont(font)
+        self.ML_label_speech.setTextFormat(QtCore.Qt.AutoText)
+        self.ML_label_speech.setObjectName("ML_label_speech")
+        self.Dropdown_speech_ML = QtWidgets.QComboBox(self.ML_speech_combobox)
+        self.Dropdown_speech_ML.setGeometry(QtCore.QRect(60, 90, 981, 51))
+        self.Dropdown_speech_ML.setObjectName("Dropdown_speech_ML")
+        self.Dropdown_speech_ML.addItem("")
+        self.start_ML_but_speech = QtWidgets.QPushButton(self.ML_speech_combobox)
+        self.start_ML_but_speech.setGeometry(QtCore.QRect(760, 160, 271, 51))
+        self.start_ML_but_speech.setObjectName("start_ML_but_speech")
+        self.refresh_ML_but_speech = QtWidgets.QPushButton(self.ML_speech_combobox, clicked = lambda : self.refreshList_ML_speech())
+        self.refresh_ML_but_speech.setGeometry(QtCore.QRect(670, 160, 91, 51))
+        self.refresh_ML_but_speech.setObjectName("refresh_ML_but_speech")
+
+        ## Data Collection
+        self.Experiment_Setup_combobox = QtWidgets.QGroupBox(self.DataCollectionSpeechRecTab)
+        self.Experiment_Setup_combobox.setGeometry(QtCore.QRect(20, 40, 1061, 221))
+        self.Experiment_Setup_combobox.setObjectName("preprocessing_speech_combobox")
+        self.samples_label_speech = QtWidgets.QLabel(self.Experiment_Setup_combobox)
+        self.samples_label_speech.setGeometry(QtCore.QRect(20, 90, 221, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.samples_label_speech.setFont(font)
+        self.samples_label_speech.setTextFormat(QtCore.Qt.AutoText)
+        self.samples_label_speech.setObjectName("samples_label_speech")
+        self.StartSpeechRecogExperimentBut = QtWidgets.QPushButton(self.Experiment_Setup_combobox, clicked = lambda: SpeechRecDataCollection.StartSpeechRecogExperiment(self))
+        self.StartSpeechRecogExperimentBut.setGeometry(QtCore.QRect(780, 170, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.StartSpeechRecogExperimentBut.setFont(font)
         self.StartSpeechRecogExperimentBut.setObjectName("StartSpeechRecogExperimentBut")
+        self.SampleSizeInput_speech = QtWidgets.QLineEdit(self.Experiment_Setup_combobox)
+        self.SampleSizeInput_speech.setGeometry(QtCore.QRect(290, 90, 113, 41))
+        self.SampleSizeInput_speech.setObjectName("SampleSizeInput_speech")
+        self.DCCOMLabel_speech = QtWidgets.QLabel(self.Experiment_Setup_combobox)
+        self.DCCOMLabel_speech.setGeometry(QtCore.QRect(20, 40, 311, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.DCCOMLabel_speech.setFont(font)
+        self.DCCOMLabel_speech.setTextFormat(QtCore.Qt.AutoText)
+        self.DCCOMLabel_speech.setObjectName("DCCOMLabel_speech")
+        self.ConnectBut_speech = QtWidgets.QPushButton(self.Experiment_Setup_combobox, clicked = lambda : self.FindCOM_speech())
+        self.ConnectBut_speech.setGeometry(QtCore.QRect(450, 40, 91, 31))
+        self.ConnectBut_speech.setObjectName("ConnectBut_speech")
+        self.DCCOMIndecatorLabel_speech = QtWidgets.QLabel(self.Experiment_Setup_combobox)
+        self.DCCOMIndecatorLabel_speech.setGeometry(QtCore.QRect(270, 40, 151, 31))
+        self.DCCOMIndecatorLabel_speech.setAlignment(QtCore.Qt.AlignCenter)
+        self.DCCOMIndecatorLabel_speech.setObjectName("DCCOMIndecatorLabel_speech")
+        self.ChannelNumber_speech = QtWidgets.QLineEdit(self.Experiment_Setup_combobox)
+        self.ChannelNumber_speech.setGeometry(QtCore.QRect(290, 150, 113, 41))
+        self.ChannelNumber_speech.setText("")
+        self.ChannelNumber_speech.setObjectName("ChannelNumber_speech")
+        self.channel_num_label_speech = QtWidgets.QLabel(self.Experiment_Setup_combobox)
+        self.channel_num_label_speech.setGeometry(QtCore.QRect(20, 150, 221, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.channel_num_label_speech.setFont(font)
+        self.channel_num_label_speech.setTextFormat(QtCore.Qt.AutoText)
+        self.channel_num_label_speech.setObjectName("channel_num_label_speech")
         self.SubTabSpeechRecognition.addTab(self.DataCollectionSpeechRecTab, "")
 
 
-
-        ## Speech recognition Data Processing Tab
-        self.DataProcessingSpeechRecTab = QtWidgets.QWidget()
-        self.DataProcessingSpeechRecTab.setObjectName("DataProcessingSpeechRecTab")
-        self.SpeechRecDataProcessingTitle = QtWidgets.QLabel(self.DataProcessingSpeechRecTab)
-        self.SpeechRecDataProcessingTitle.setGeometry(QtCore.QRect(230, 0, 581, 61))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
-        self.SpeechRecDataProcessingTitle.setFont(font)
-        self.SpeechRecDataProcessingTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.SpeechRecDataProcessingTitle.setAlignment(QtCore.Qt.AlignCenter)
-        self.SpeechRecDataProcessingTitle.setObjectName("SpeechRecDataProcessingTitle")
-        self.SubTabSpeechRecognition.addTab(self.DataProcessingSpeechRecTab, "")
-
-
-        ## Speech recognition Training and Testting Tab
-        self.TrainingSpeechRecTab = QtWidgets.QWidget()
-        self.TrainingSpeechRecTab.setObjectName("TrainingSpeechRecTab")
-        self.SpeechRecTrAndTsTitle = QtWidgets.QLabel(self.TrainingSpeechRecTab)
-        self.SpeechRecTrAndTsTitle.setGeometry(QtCore.QRect(230, 0, 581, 61))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
-        self.SpeechRecTrAndTsTitle.setFont(font)
-        self.SpeechRecTrAndTsTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.SpeechRecTrAndTsTitle.setAlignment(QtCore.Qt.AlignCenter)
-        self.SpeechRecTrAndTsTitle.setObjectName("SpeechRecTrAndTsTitle")
-        self.SubTabSpeechRecognition.addTab(self.TrainingSpeechRecTab, "")
+        # ## Speech recognition Data Processing Tab
+        # self.DataProcessingSpeechRecTab = QtWidgets.QWidget()
+        # self.DataProcessingSpeechRecTab.setObjectName("DataProcessingSpeechRecTab")
+        # self.SpeechRecDataProcessingTitle = QtWidgets.QLabel(self.DataProcessingSpeechRecTab)
+        # self.SpeechRecDataProcessingTitle.setGeometry(QtCore.QRect(230, 0, 581, 61))
+        # font = QtGui.QFont()
+        # font.setPointSize(20)
+        # font.setBold(True)
+        # font.setWeight(75)
+        # self.SpeechRecDataProcessingTitle.setFont(font)
+        # self.SpeechRecDataProcessingTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
+        # self.SpeechRecDataProcessingTitle.setAlignment(QtCore.Qt.AlignCenter)
+        # self.SpeechRecDataProcessingTitle.setObjectName("SpeechRecDataProcessingTitle")
+        # self.SubTabSpeechRecognition.addTab(self.DataProcessingSpeechRecTab, "")
 
 
-
-
+        # ## Speech recognition Training and Testting Tab
+        # self.TrainingSpeechRecTab = QtWidgets.QWidget()
+        # self.TrainingSpeechRecTab.setObjectName("TrainingSpeechRecTab")
+        # self.SpeechRecTrAndTsTitle = QtWidgets.QLabel(self.TrainingSpeechRecTab)
+        # self.SpeechRecTrAndTsTitle.setGeometry(QtCore.QRect(230, 0, 581, 61))
+        # font = QtGui.QFont()
+        # font.setPointSize(20)
+        # font.setBold(True)
+        # font.setWeight(75)
+        # self.SpeechRecTrAndTsTitle.setFont(font)
+        # self.SpeechRecTrAndTsTitle.setLayoutDirection(QtCore.Qt.LeftToRight)
+        # self.SpeechRecTrAndTsTitle.setAlignment(QtCore.Qt.AlignCenter)
+        # self.SpeechRecTrAndTsTitle.setObjectName("SpeechRecTrAndTsTitle")
+        # self.SubTabSpeechRecognition.addTab(self.TrainingSpeechRecTab, "")
 
 
         self.SpeechRecDCTitle.addTab(self.SpeechRecogntionTab, "")
@@ -400,13 +523,29 @@ class Ui_SSRRecognition(object):
         self.refresh_ML_but_spatial.setText(_translate("SSRRecognition", "Refresh list"))
         self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.DataProcessingSpatialRecTab), _translate("SSRRecognition", "Data Processing"))
         self.SpeechRecDCTitle.setTabText(self.SpeechRecDCTitle.indexOf(self.SpatialRecognitionTab), _translate("SSRRecognition", "Spatial Recognition"))
-        self.SpeechRecDataCollectionTitle.setText(_translate("SSRRecognition", "Speech Recognition Test Data Collection"))
+        self.SpeechRecDataCollectionTitle.setText(_translate("SSRRecognition", "Speech Recognition Test"))
+        self.preprocessing_speech_combobox.setTitle(_translate("SSRRecognition", "Preprocessing"))
+        self.preprocessing_label_speech.setText(_translate("SSRRecognition", "Please select the desire test"))
+        self.Dropdown_speech_prepro.setItemText(0, _translate("SSRRecognition", "Please select test"))
+        self.start_preprocessing_but_speech.setText(_translate("SSRRecognition", "Start Preprocessing"))
+        self.refresh_preprocessing_but_speech.setText(_translate("SSRRecognition", "Refresh list"))
+        self.ML_speech_combobox.setTitle(_translate("SSRRecognition", "Training and Testing"))
+        self.ML_label_speech.setText(_translate("SSRRecognition", "Please select the desire test"))
+        self.Dropdown_speech_ML.setItemText(0, _translate("SSRRecognition", "Please select test"))
+        self.start_ML_but_speech.setText(_translate("SSRRecognition", "Start Preprocessing"))
+        self.refresh_ML_but_speech.setText(_translate("SSRRecognition", "Refresh list"))
+        self.Experiment_Setup_combobox.setTitle(_translate("SSRRecognition", "Data Collection"))
+        self.samples_label_speech.setText(_translate("SSRRecognition", "Number of Sample per class:"))
         self.StartSpeechRecogExperimentBut.setText(_translate("SSRRecognition", "Start Experiment"))
+        self.DCCOMLabel_speech.setText(_translate("SSRRecognition", "Data Collector COM Port:"))
+        self.ConnectBut_speech.setText(_translate("SSRRecognition", "Connect"))
+        self.DCCOMIndecatorLabel_speech.setText(_translate("SSRRecognition", "----"))
+        self.channel_num_label_speech.setText(_translate("SSRRecognition", "Number of Channels:"))
         self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.DataCollectionSpeechRecTab), _translate("SSRRecognition", "Data Collection"))
-        self.SpeechRecDataProcessingTitle.setText(_translate("SSRRecognition", "Speech Recognition Test Data Processing"))
-        self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.DataProcessingSpeechRecTab), _translate("SSRRecognition", "Data Processing"))
-        self.SpeechRecTrAndTsTitle.setText(_translate("SSRRecognition", "Speech Recognition Training and Testing"))
-        self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.TrainingSpeechRecTab), _translate("SSRRecognition", "Training and Testing"))
+        # self.SpeechRecDataProcessingTitle.setText(_translate("SSRRecognition", "Speech Recognition Test Data Processing"))
+        # self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.DataProcessingSpeechRecTab), _translate("SSRRecognition", "Data Processing"))
+        # self.SpeechRecTrAndTsTitle.setText(_translate("SSRRecognition", "Speech Recognition Training and Testing"))
+        # self.SubTabSpeechRecognition.setTabText(self.SubTabSpeechRecognition.indexOf(self.TrainingSpeechRecTab), _translate("SSRRecognition", "Training and Testing"))
         self.SpeechRecDCTitle.setTabText(self.SpeechRecDCTitle.indexOf(self.SpeechRecogntionTab), _translate("SSRRecognition", "Speech Recognition"))
 
 
