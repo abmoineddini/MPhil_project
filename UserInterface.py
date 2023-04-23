@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from SpatialRec import  SpatialRecDataCollection
 import utils
-
+import os
 import datetime
 
 class Ui_SSRRecognition(object):
@@ -36,7 +36,13 @@ class Ui_SSRRecognition(object):
                     self.StageCOMIndecatorLabel.setText(self.StageControllerPort)
                 except:
                     pass
-    
+    def refreshList(self):
+        data_directory_spatial = "TrainingData/Spatial_Recognition"
+        self.spatial_test_list = os.listdir(data_directory_spatial)
+        print(self.spatial_test_list)
+        print(len(self.spatial_test_list))
+        print(type(len(self.spatial_test_list)))
+
     def setupUi(self, SSRRecognition):
         ## Setting up global Variables for Speech Recognition Data Collection
         SSRRecognition.setObjectName("SSRRecognition")
@@ -60,6 +66,7 @@ class Ui_SSRRecognition(object):
         self.DataCollectorPort = ""
         self.currAngle = "NaN"
         self.arduino = "NaN"
+        self.spatial_test_list = os.listdir("TrainingData/Spatial_Recognition")
         self.StageCalibStat = False
         self.DataCollectionSpatialRecTab = QtWidgets.QWidget()
         self.DataCollectionSpatialRecTab.setObjectName("DataCollectionSpatialRecTab")
@@ -212,11 +219,54 @@ class Ui_SSRRecognition(object):
 
 
 
-
         ## Spatial recognition Processing Tab
+        ### Start preprocessing
         self.DataProcessingSpatialRecTab = QtWidgets.QWidget()
         self.DataProcessingSpatialRecTab.setObjectName("DataProcessingSpatialRecTab")
+        self.preprocessing_spatial_combobox = QtWidgets.QGroupBox(self.DataProcessingSpatialRecTab)
+        self.preprocessing_spatial_combobox.setGeometry(QtCore.QRect(20, 40, 1061, 241))
+        self.preprocessing_spatial_combobox.setObjectName("preprocessing_spatial_combobox")
+        self.preprocessing_label_spatial = QtWidgets.QLabel(self.preprocessing_spatial_combobox)
+        self.preprocessing_label_spatial.setGeometry(QtCore.QRect(20, 30, 311, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.preprocessing_label_spatial.setFont(font)
+        self.preprocessing_label_spatial.setTextFormat(QtCore.Qt.AutoText)
+        self.preprocessing_label_spatial.setObjectName("preprocessing_label_speech")
+        self.Dropdown_spatial_prepro = QtWidgets.QComboBox(self.preprocessing_spatial_combobox)
+        self.Dropdown_spatial_prepro.setGeometry(QtCore.QRect(60, 90, 981, 51))
+        self.Dropdown_spatial_prepro.setObjectName("Dropdown_spatial_prepro")
+        self.Dropdown_spatial_prepro.addItem("")
+        self.Dropdown_spatial_prepro.insertItems(len(self.spatial_test_list), self.spatial_test_list)
+        self.start_prepriocessing_but_spatial = QtWidgets.QPushButton(self.preprocessing_spatial_combobox)
+        self.start_prepriocessing_but_spatial.setGeometry(QtCore.QRect(760, 170, 271, 51))
+        self.start_prepriocessing_but_spatial.setObjectName("start_prepriocessing_but_spatial")
+        self.refresh_prepriocessing_but_spatial = QtWidgets.QPushButton(self.preprocessing_spatial_combobox, clicked = lambda : self.refreshList())
+        self.refresh_prepriocessing_but_spatial.setGeometry(QtCore.QRect(670, 170, 91, 51))
+        self.refresh_prepriocessing_but_spatial.setObjectName("refresh_prepriocessing_but_spatial")
         self.SubTabSpatialRecognition.addTab(self.DataProcessingSpatialRecTab, "")
+
+        ### Satrt training and testing
+        self.ML_spatial_combobox = QtWidgets.QGroupBox(self.DataProcessingSpatialRecTab)
+        self.ML_spatial_combobox.setGeometry(QtCore.QRect(20, 370, 1061, 241))
+        self.ML_spatial_combobox.setObjectName("ML_spatial_combobox")
+        self.ML_label_spatial = QtWidgets.QLabel(self.ML_spatial_combobox)
+        self.ML_label_spatial.setGeometry(QtCore.QRect(20, 30, 311, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ML_label_spatial.setFont(font)
+        self.ML_label_spatial.setTextFormat(QtCore.Qt.AutoText)
+        self.ML_label_spatial.setObjectName("ML_label_spatial")
+        self.Dropdown_spatial_ML = QtWidgets.QComboBox(self.ML_spatial_combobox)
+        self.Dropdown_spatial_ML.setGeometry(QtCore.QRect(60, 90, 981, 51))
+        self.Dropdown_spatial_ML.setObjectName("Dropdown_spatial_ML")
+        self.Dropdown_spatial_ML.addItem("")
+        self.start_ML_but_spatial = QtWidgets.QPushButton(self.ML_spatial_combobox)
+        self.start_ML_but_spatial.setGeometry(QtCore.QRect(760, 170, 271, 51))
+        self.start_ML_but_spatial.setObjectName("start_ML_but_spatial")
+        self.refresh_ML_but_spatial = QtWidgets.QPushButton(self.ML_spatial_combobox)
+        self.refresh_ML_but_spatial.setGeometry(QtCore.QRect(670, 170, 91, 51))
+        self.refresh_ML_but_spatial.setObjectName("refresh_ML_but_spatial")
 
         ## Spatial recognition Training and Testing Tab
         self.TrainingSpatialRecTab = QtWidgets.QWidget()
@@ -337,6 +387,16 @@ class Ui_SSRRecognition(object):
         self.StartSpatialRecogExperimentBut.setText(_translate("SSRRecognition", "Start Experiment"))
         self.ExperimentStatIndecator.setText(_translate("SSRRecognition", "----"))
         self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.DataCollectionSpatialRecTab), _translate("SSRRecognition", "Data Collection"))
+        self.preprocessing_spatial_combobox.setTitle(_translate("SSRRecognition", "Preprocessing"))
+        self.preprocessing_label_spatial.setText(_translate("SSRRecognition", "Please select the desire test"))
+        self.Dropdown_spatial_prepro.setItemText(0, _translate("SSRRecognition", "Please select test"))
+        self.start_prepriocessing_but_spatial.setText(_translate("SSRRecognition", "Start Preprocessing"))
+        self.refresh_prepriocessing_but_spatial.setText(_translate("SSRRecognition", "Refresh list"))
+        self.ML_spatial_combobox.setTitle(_translate("SSRRecognition", "Training and Testing"))
+        self.ML_label_spatial.setText(_translate("SSRRecognition", "Please select the desire test"))
+        self.Dropdown_spatial_ML.setItemText(0, _translate("SSRRecognition", "Please select test"))
+        self.start_ML_but_spatial.setText(_translate("SSRRecognition", "Start Preprocessing"))
+        self.refresh_ML_but_spatial.setText(_translate("SSRRecognition", "Refresh list"))
         self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.DataProcessingSpatialRecTab), _translate("SSRRecognition", "Data Processing"))
         self.SubTabSpatialRecognition.setTabText(self.SubTabSpatialRecognition.indexOf(self.TrainingSpatialRecTab), _translate("SSRRecognition", "Training and Testing"))
         self.SpeechRecDCTitle.setTabText(self.SpeechRecDCTitle.indexOf(self.SpatialRecognitionTab), _translate("SSRRecognition", "Spatial Recognition"))
